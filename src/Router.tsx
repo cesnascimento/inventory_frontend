@@ -11,6 +11,7 @@ import ShopSelect from "./pages/ShopSelect";
 import UpdatePassword from "./pages/UpdatePassword";
 import NewInvoice from "./pages/NewInvoice";
 import Invoice from "./pages/Invoice";
+import InventoryList from "./pages/InventoryList";
 
 export default function Router() {
   return (
@@ -20,6 +21,7 @@ export default function Router() {
         <Route path="/check-user" exact component={NewUser} />
         <Route path="/shop-select" exact component={ShopSelect} />
         <Route path="/update-password" exact component={UpdatePassword} />
+        <Route exact path="/inventory-list" component={InventoryList} />
         <Route
           path="/"
           render={() => (

@@ -26,36 +26,40 @@ export default function Login() {
         setIsLoading(false)
     };
     return (
-        <AuthLayout>
-            <br />
-            <Form
-                layout="vertical"
-                onFinish={onFinish}
-                name="basic"
-                initialValues={{ remember: true }}
-            >
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[{ required: true, message: "Please input your email" }]}
-                >
-                    <Input placeholder="Enter email" type="email" />
-                </Form.Item>
+      <AuthLayout>
+        <br />
+        <Form
+          layout="vertical"
+          onFinish={onFinish}
+          name="basic"
+          initialValues={{ remember: true }}
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email" }]}
+          >
+            <Input placeholder="Enter email" type="email" />
+          </Form.Item>
 
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: "Please input your password" }]}
-                >
-                    <Input placeholder="Enter password" type="password" />
-                </Form.Item>
-                <Button type="primary" block htmlType="submit" loading={isLoading}>Login</Button>
-
-            </Form>
-            <div className="spacer-10v"></div>
-            <Link to="/check-user">
-                New User?
-            </Link>
-        </AuthLayout>
-    )
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password" }]}
+          >
+            <Input placeholder="Enter password" type="password" />
+          </Form.Item>
+          <Button type="primary" block htmlType="submit" loading={isLoading}>
+            Login
+          </Button>
+        </Form>
+        <div className="spacer-10v"></div>
+        <Link to="/check-user">New User?</Link>
+        <br />
+        <br />
+        <div style={{ textAlign: "center" }}>
+          <Link to="/inventory-list">VIEW INVENTORY LIST</Link>
+        </div>
+      </AuthLayout>
+    );
 }

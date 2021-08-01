@@ -61,9 +61,11 @@ const columns = [
 
 export default function Inventory({
   invoiceSection = false,
+  noAuth = false,
   onAddItem,
 }: {
   invoiceSection?: boolean;
+  noAuth?: boolean;
   onAddItem?: (item: any) => void;
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -75,7 +77,19 @@ export default function Inventory({
   const [isSingleAdd, setIsSingleAdd] = useState(true);
   const [activeItem, setActiveItem]: any = useState();
 
-  const newColumns = invoiceSection
+  const newColumns = noAuth
+    ? columns.filter((item: any) => {
+        if (
+          item.dataIndex === "addedOn" ||
+          item.dataIndex === "addedBy" ||
+          item.dataIndex === "total" ||
+          item.dataIndex === "itemGroup" ||
+          item.dataIndex === "actions"
+        )
+          return false;
+        return true;
+      })
+    : invoiceSection
     ? columns.filter((item: any) => {
         if (
           item.dataIndex === "addedOn" ||
@@ -99,9 +113,14 @@ export default function Inventory({
 
   const onDelete = async (id: any) => {
     setFetching(true);
-    const res: any = Axios.delete(INVENTORY_URL + `/${id}`, {
-      headers: { Authorization: userToken },
-    }).catch((e) => {
+    const res: any = Axios.delete(
+      INVENTORY_URL + `/${id}`,
+      noAuth
+        ? {}
+        : {
+            headers: { Authorization: userToken },
+          }
+    ).catch((e) => {
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
       setFetching(false);
     });
@@ -141,7 +160,7 @@ export default function Inventory({
         addedBy: <Link to="/">{item.added_by.fullname}</Link>,
         role: item.role,
         lastLogin: item.last_login,
-        actions: invoiceSection ? (
+        actions: noAuth ? null : invoiceSection ? (
           <Button
             style={{
               backgroundColor: "rgba(140,255,179,29%)",
@@ -201,7 +220,7 @@ export default function Inventory({
           <h3>Inventory Management</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
-            {!invoiceSection && (
+            {!invoiceSection && !noAuth && (
               <>
                 <div className="spacer-10" />
                 <Button
