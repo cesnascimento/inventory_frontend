@@ -32,12 +32,16 @@ export default function InventoryForm({
 
     const onFinish = async (values: any) => {
         setIsLoading(true);
-        const formData = new FormData();
-        for (let key in values) {
-            formData.append(key, values[key]);
-        }
+        let formData;
+
         if (selectedImage) {
-            formData.append("photo", selectedImage);
+          formData = new FormData();
+          for (let key in values) {
+            formData.append(key, values[key]);
+          }
+          formData.append("photo", selectedImage);
+        } else {
+          formData = values;
         }
         let url = INVENTORY_URL
         if (activeItem) {
