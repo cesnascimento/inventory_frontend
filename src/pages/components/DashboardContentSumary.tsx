@@ -18,7 +18,6 @@ export default function DashboardContentSumary() {
         )
         if (res) {
             setSummaryData(res.data)
-            console.log(res.data)
             setFetching(false)
         }
     }

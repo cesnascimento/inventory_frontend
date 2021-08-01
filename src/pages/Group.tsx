@@ -1,12 +1,14 @@
-import { Button, Table, Modal } from 'antd'
+import { Button, Table, Modal, Popconfirm } from 'antd'
 import Searchbar from './components/Searchbar'
-import { DeleteOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { useContext, useEffect, useState } from 'react';
 import GroupForm from './components/groupForm';
 import moment from 'moment';
-import { getAppGroups } from '../utils/functions';
+import { errorHandler, getAppGroups, NotificationTypes, openNotificationWithIcon } from '../utils/functions';
 import { ActionTypes, store } from '../store';
 import { Link } from 'react-router-dom';
+import Axios from "axios";
+import { GROUP_URL } from '../utils/myPaths';
 
 const columns = [
     {
@@ -49,8 +51,30 @@ export default function Group() {
     const [totalCount, setTotalCount] = useState(0)
     const [search, setSearch] = useState("")
     const { state: { userToken }, dispatch } = useContext(store)
+    const [activeItem, setActiveItem]: any = useState();
 
-    const getUsers = async () => {
+    const editItem = (item: any) => {
+        setActiveItem(item);
+        setIsModalVisible(true);
+    };
+
+    const onDelete = async (id: any) => {
+        setFetching(true)
+        const res: any = Axios.delete(GROUP_URL + `/${id}`, { headers: { Authorization: userToken } }
+        ).catch((e) => {
+            openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+            setFetching(false)
+        }
+        );
+        if (res) {
+            setTimeout(async () => {
+                await getGroups()
+                openNotificationWithIcon(NotificationTypes.SUCCESS, "Deletion successful!")
+            }, 1000)
+        }
+    }
+
+    const getGroups = async () => {
 
         setFetching(true)
 
@@ -68,7 +92,17 @@ export default function Group() {
                 totalItems: item.total_items || 0,
                 createdOn: moment(item.created_at).format("DD-MM-YYYY"),
                 actions: <div className="flex align-center">
-                    <DeleteOutlined style={{ color: "red" }} />
+                    <EditOutlined
+                        style={{ color: "blue", cursor: "pointer" }}
+                        onClick={() => editItem(item)}
+                    />
+                    <div className="spacer-10"></div>
+                    <Popconfirm
+                        title="Are you sure to delete group?"
+                        onConfirm={() => onDelete(item.id)}
+                    >
+                        <DeleteOutlined style={{ color: "red", cursor: "pointer" }} />
+                    </Popconfirm>
                 </div>,
             })))
             dispatch({ type: ActionTypes.UPDATE_APP_GROUP, payload: res.data.results })
@@ -78,7 +112,7 @@ export default function Group() {
     }
 
     useEffect(() => {
-        getUsers()
+        getGroups()
     }, [currentPage, search])
 
     const showModal = () => {
@@ -87,14 +121,14 @@ export default function Group() {
 
     const closeModal = () => {
         setIsModalVisible(false)
-        getUsers()
+        getGroups()
     }
 
     return (
         <>
             <div className="cardMain">
                 <div className="headerContent">
-                    <h3>Users</h3>
+                    <h3>Group</h3>
                     <div className="flex align-center">
                         <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
                         <div className="spacer-10" />
@@ -112,8 +146,8 @@ export default function Group() {
                     }}
                 />
             </div>
-            <Modal title="Add User" visible={isModalVisible} onCancel={closeModal} footer={false}>
-                <GroupForm onAddComplete={closeModal} belongsToList={groupData} />
+            <Modal title="Add Group" visible={isModalVisible} onCancel={closeModal} footer={false}>
+                <GroupForm onAddComplete={closeModal} belongsToList={groupData} activeItem={activeItem} />
             </Modal>
         </>
     )

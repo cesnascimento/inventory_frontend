@@ -4,26 +4,38 @@ import { store } from '../../store';
 import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions';
 import Axios from "axios"
 import { SHOP_URL } from '../../utils/myPaths';
+import { useEffect } from 'react';
 
 export default function ShopForm({
-    onAddComplete
-}: { onAddComplete: () => void }) {
+    onAddComplete,
+    activeItem
+}: { onAddComplete: () => void, activeItem: any }) {
     const [isLoading, setIsLoading] = useState(false)
     const { state: { userToken } } = useContext(store)
     const [form] = Form.useForm()
 
     const onFinish = async (values: any) => {
         setIsLoading(true)
-        const result = await Axios.post(SHOP_URL, values, { headers: { Authorization: userToken } }).catch(
+        let url = SHOP_URL
+        if (activeItem) {
+            url = SHOP_URL + `/${activeItem.id}`
+        }
+        const result = await Axios[activeItem ? "patch" : "post"](url, values, { headers: { Authorization: userToken } }).catch(
             e => openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
         )
         if (result) {
-            openNotificationWithIcon(NotificationTypes.SUCCESS, "Shop Added Successfully")
+            openNotificationWithIcon(NotificationTypes.SUCCESS, `Shop ${activeItem ? 'Added' : 'Updated'}  Successfully`)
             form.resetFields()
             onAddComplete()
         }
         setIsLoading(false)
     }
+
+    useEffect(() => {
+        if (activeItem) {
+            form.setFieldsValue({ ...activeItem })
+        }
+    }, [activeItem])
 
     return (
         <div>
@@ -42,7 +54,7 @@ export default function ShopForm({
                     <Input placeholder="Enter shop name" />
                 </Form.Item>
 
-                <Button block type="primary" htmlType="submit" loading={isLoading}>Submit</Button>
+                <Button block type="primary" htmlType="submit" loading={isLoading}>{activeItem ? "Update" : "Submit"}</Button>
             </Form>
         </div>
     )

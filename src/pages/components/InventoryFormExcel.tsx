@@ -4,7 +4,6 @@ import Axios from "axios"
 import { store } from '../../store';
 import { INVENTORY_CSV_URL } from '../../utils/myPaths';
 import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions';
-import InventorySampleFile from "../../../public/manifest.json"
 
 export default function InventoryFormExcel({
     onAddComplete

@@ -7,18 +7,15 @@ import TopSellingItems from './components/TopSellingItems'
 
 export default function Dashboard() {
     return (
-        <div>
-            <DashboardContentSumary />
-            <br />
-            <div className="gridSection">
-                <TopSellingItems />
-                <SalePieChart />
-            </div>
-            <br />
-            <div className="gridSection">
-                <SalePerformance />
-                <PurchaseSummary />
-            </div>
+      <div>
+        <DashboardContentSumary />
+        <br />
+        <div className="gridSection">
+          <TopSellingItems />
+          <SalePieChart />
         </div>
-    )
+        <br />
+        <SalePerformance />
+      </div>
+    );
 }

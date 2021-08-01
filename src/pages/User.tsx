@@ -1,4 +1,4 @@
-import { Button, Table, Modal } from 'antd'
+import { Button, Table, Modal, Popconfirm } from 'antd'
 import Searchbar from './components/Searchbar'
 import { DeleteOutlined } from "@ant-design/icons"
 import { useContext, useEffect, useState } from 'react';
@@ -42,6 +42,22 @@ export default function User() {
     const [search, setSearch] = useState("")
     const { state: { userToken } } = useContext(store)
 
+    const onDelete = async (id: any) => {
+        setFetching(true)
+        const res: any = Axios.delete(USERS_URL + `/${id}`, { headers: { Authorization: userToken } }
+        ).catch((e) => {
+            openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+            setFetching(false)
+        }
+        );
+        if (res) {
+            setTimeout(async () => {
+                await getUsers()
+                openNotificationWithIcon(NotificationTypes.SUCCESS, "Deletion successful!")
+            }, 1000)
+        }
+    }
+
     const getUsers = async () => {
 
         setFetching(true)
@@ -60,7 +76,12 @@ export default function User() {
                 addedOn: moment(item.created_at).format("DD-MM-YYYY"),
                 lastLogin: moment(item.last_login).fromNow(),
                 actions: <div className="flex align-center">
-                    <DeleteOutlined style={{ color: "red" }} />
+                    <Popconfirm
+                        title="Are you sure to delete user?"
+                        onConfirm={() => onDelete(item.id)}
+                    >
+                        <DeleteOutlined style={{ color: "red", cursor: "pointer" }} />
+                    </Popconfirm>
                 </div>,
             })))
         }

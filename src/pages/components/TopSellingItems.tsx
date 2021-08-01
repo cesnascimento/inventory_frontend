@@ -11,46 +11,59 @@ export default function TopSellingItems() {
     const [topSelling, setTopSelling]: any = useState([])
     const [fetching, setFetching] = useState(true)
     const { state: { userToken } } = useContext(store)
+    const [dateInfo, setDateInfo]: any = useState("");
 
     const getTopSellingData = async () => {
-        const res = await Axios.get(TOP_SELLING_URL, { headers: { Authorization: userToken } }).catch(
-            e => openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
-        )
-        if (res) {
-            setTopSelling(res.data)
-            console.log(res.data)
-            setFetching(false)
-        }
-    }
+      const res = await Axios.get(TOP_SELLING_URL + `${dateInfo}`, {
+        headers: { Authorization: userToken },
+      }).catch((e) =>
+        openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+      );
+      if (res) {
+        setTopSelling(res.data);
+        setFetching(false);
+      }
+    };
 
     useEffect(() => {
-        getTopSellingData()
-    }, [])
+      getTopSellingData();
+    }, [dateInfo]);
+
+    const handleDateSelect = (val: any) => {
+      if (val) {
+        const [startMoment, endMoment] = val;
+        setDateInfo(
+          `?start_date=${startMoment.format(
+            "YYYY-MM-DD"
+          )}&end_date=${endMoment.format("YYYY-MM-DD")}`
+        );
+      } else {
+        setDateInfo("");
+      }
+    };
 
     return (
-        <div className="cardMain">
-            <div className="headerContent">
-                <h3>Top Selling Items</h3>
-                <DateSelector />
-            </div>
-            {
-                fetching ? <Loader /> :
-                    <div className="itemsGrid">
-                        {
-                            topSelling.map((item: any, i: number) => <ItemCard key={i}
-                                image={item.photo}
-                                title={item.name}
-                                count={item.sum_of_item || 0}
-                            />)
-                        }
-
-
-                    </div>
-
-            }
-
+      <div className="cardMain">
+        <div className="headerContent">
+          <h3>Top Selling Items</h3>
+          <DateSelector handleChange={handleDateSelect} />
         </div>
-    )
+        {fetching ? (
+          <Loader />
+        ) : (
+          <div className="itemsGrid">
+            {topSelling.map((item: any, i: number) => (
+              <ItemCard
+                key={i}
+                image={item.photo}
+                title={item.name}
+                count={item.sum_of_item || 0}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
 }
 
 const ItemCard = ({ image, title, count }: {

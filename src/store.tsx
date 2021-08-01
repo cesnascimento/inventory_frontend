@@ -3,7 +3,8 @@ import React, { createContext, useReducer } from "react";
 export enum ActionTypes {
   UPDATE_USER_DATA,
   UPDATE_USER_TOKEN,
-  UPDATE_APP_GROUP
+  UPDATE_APP_GROUP,
+  UPDATE_APP_SHOP,
 }
 
 export interface ActionProps {
@@ -17,8 +18,7 @@ function userReducer(state: any, action: ActionProps) {
       ...state,
       userData: action.payload,
     };
-  }
-  else if (action.type === ActionTypes.UPDATE_USER_TOKEN) {
+  } else if (action.type === ActionTypes.UPDATE_USER_TOKEN) {
     return {
       ...state,
       userToken: action.payload,
@@ -34,27 +34,33 @@ function appReducer(state: any, action: ActionProps) {
       ...state,
       groups: action.payload,
     };
+  } else if (action.type === ActionTypes.UPDATE_APP_SHOP) {
+    return {
+      ...state,
+      shop: action.payload,
+    };
   }
 
-  return state
+  return state;
 }
 
 const reduceReducers =
   (...reducers: any) =>
-    (prevState: any, value: any, ...args: any) =>
-      reducers.reduce(
-        (newState: any, reducer: any) => reducer(newState, value, ...args),
-        prevState
-      );
+  (prevState: any, value: any, ...args: any) =>
+    reducers.reduce(
+      (newState: any, reducer: any) => reducer(newState, value, ...args),
+      prevState
+    );
 
-const userInitialData: { userData: any, userToken: string | null } = {
+const userInitialData: { userData: any; userToken: string | null } = {
   userData: null,
-  userToken: null
+  userToken: null,
 };
 
-const appInitialData: { groups: any } = {
-  groups: null
-}
+const appInitialData: { groups: any; shop: any } = {
+  groups: null,
+  shop: null,
+};
 
 const initialData: any = {
   ...userInitialData,
