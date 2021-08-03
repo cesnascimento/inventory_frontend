@@ -45,7 +45,6 @@ export default function UserActivity() {
 
     if (res) {
       setTotalCount(res.data.count);
-      console.log(res.data);
       setActivities(
         res.data.results.map((item: any, i: number) => ({
           key: i,

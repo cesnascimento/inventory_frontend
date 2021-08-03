@@ -75,9 +75,9 @@ export default function Invoice() {
         res.data.results.map((item: any, i: number) => ({
           key: i,
           id: item.id,
-          shop: item.shop.name,
-          createdBy: <Link to="/">{item.created_by.fullname}</Link>,
-          totalItems: item.invoice_items.length,
+          shop: item?.shop?.name,
+          createdBy: <Link to="/">{item?.created_by?.fullname}</Link>,
+          totalItems: item?.invoice_items?.length,
           createdOn: moment(item.created_at).format("DD-MM-YYYY"),
           actions: (
             <Button
