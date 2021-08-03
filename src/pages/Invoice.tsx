@@ -15,7 +15,7 @@ import { ActionTypes, store } from "../store";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { GROUP_URL, INVOICE_URL } from "../utils/myPaths";
-import InvoiceCard from "./components/InvoiceCard";
+import InvoiceCard, { InvoiceCardV2 } from "./components/InvoiceCard";
 import ReactToPrint from "react-to-print";
 import { useRef } from "react";
 
@@ -129,7 +129,7 @@ export default function Invoice() {
         />
       </div>
       <Modal visible={isModalVisible} onCancel={closeModal} footer={false}>
-        <InvoiceCard
+        <InvoiceCardV2
           itemList={activeItem?.invoice_items.map((item: any, i: number) => ({
             key: i,
             id: item.item.id,
@@ -139,6 +139,7 @@ export default function Invoice() {
             price: formatCurrency(item.item.price),
             total: formatCurrency(item.item.price),
           }))}
+          receiptRef={receiptRef}
           columns={[
             {
               title: "Item",
