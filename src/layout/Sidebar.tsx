@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { AppstoreOutlined, DatabaseOutlined, ClusterOutlined, FileDoneOutlined, UserOutlined, ShopOutlined } from "@ant-design/icons"
-import { useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
+import {
+  AppstoreOutlined,
+  DatabaseOutlined,
+  NumberOutlined,
+  ClusterOutlined,
+  FileDoneOutlined,
+  UserOutlined,
+  ShopOutlined,
+} from "@ant-design/icons";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { store } from "../store";
 
@@ -62,6 +70,14 @@ export default function Sidebar() {
           icon={<ShopOutlined />}
           linkTo="/shop"
           isActive={activePage === "/shop"}
+        />
+      )}
+      {isSuperAdmin && (
+        <MenuItemCustom
+          title="User Activities"
+          icon={<NumberOutlined />}
+          linkTo="/user-activities"
+          isActive={activePage === "/user-activities"}
         />
       )}
     </div>

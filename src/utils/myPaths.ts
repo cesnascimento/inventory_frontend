@@ -5,6 +5,7 @@ export const LOGIN_URL = BASE_URL + "user/login";
 export const CREATE_USER_URL = BASE_URL + "user/create-user";
 export const UPDATE_PASSWORD_URL = BASE_URL + "user/password-update";
 export const USERS_URL = BASE_URL + "user/users";
+export const USER_LOG_URL = BASE_URL + "user/activity-log";
 
 export const SHOP_URL = BASE_URL + "app/shop";
 export const GROUP_URL = BASE_URL + "app/group";

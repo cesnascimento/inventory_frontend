@@ -46,7 +46,9 @@ const MainLayout: React.FC = ({ children }) => {
         payload: `Bearer ${userToken}`,
       });
       if (userInfo.data.role === "sale") {
-        setShowModal(true);
+        if (!shop) {
+          setShowModal(true);
+        }
         setHideSideBar(true);
         history.push("/invoice-section");
       } else if (userInfo.data.role === "creator") {
@@ -62,7 +64,8 @@ const MainLayout: React.FC = ({ children }) => {
   if (!isAuthenticated) return <Spin size="large" />;
 
   const onShopSelect = ({ shop }: any) => {
-    dispatch({ type: ActionTypes.UPDATE_APP_SHOP, payload: shop });
+    dispatch({ type: ActionTypes.UPDATE_APP_SHOP, payload: JSON.parse(shop) });
+    console.log(JSON.parse(shop));
     setShowModal(false);
   };
 

@@ -12,6 +12,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import NewInvoice from "./pages/NewInvoice";
 import Invoice from "./pages/Invoice";
 import InventoryList from "./pages/InventoryList";
+import UserActivity from "./pages/UserActivity";
 
 export default function Router() {
   return (
@@ -33,6 +34,7 @@ export default function Router() {
               <Route exact path="/user" component={User} />
               <Route exact path="/shop" component={Shop} />
               <Route exact path="/invoice-section" component={NewInvoice} />
+              <Route exact path="/user-activities" component={UserActivity} />
             </MainLayout>
           )}
         />

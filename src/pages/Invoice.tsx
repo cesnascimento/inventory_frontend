@@ -130,7 +130,6 @@ export default function Invoice() {
       </div>
       <Modal visible={isModalVisible} onCancel={closeModal} footer={false}>
         <InvoiceCard
-          receiptRef={receiptRef}
           itemList={activeItem?.invoice_items.map((item: any, i: number) => ({
             key: i,
             id: item.item.id,

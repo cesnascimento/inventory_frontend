@@ -213,6 +213,10 @@ input, .ant-select-selector{
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 2em;
+
+    @media screen {
+        
+    }
 }
 
 .purchaseItem{

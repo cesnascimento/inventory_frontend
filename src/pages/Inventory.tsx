@@ -63,10 +63,12 @@ export default function Inventory({
   invoiceSection = false,
   noAuth = false,
   onAddItem,
+  formAction,
 }: {
   invoiceSection?: boolean;
   noAuth?: boolean;
   onAddItem?: (item: any) => void;
+  formAction?: any;
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inventory, setInventory]: any = useState([]);
@@ -161,19 +163,23 @@ export default function Inventory({
         role: item.role,
         lastLogin: item.last_login,
         actions: noAuth ? null : invoiceSection ? (
-          <Button
-            style={{
-              backgroundColor: "rgba(140,255,179,29%)",
-              borderColor: "rgba(140,255,179,29%)",
-              color: "#269962",
-            }}
-            className="flex align-center"
-            onClick={() => onAddItem && onAddItem(item)}
-          >
-            <PlusOutlined />
-            <div className="spacer-5"></div>
-            Add
-          </Button>
+          formAction ? (
+            formAction(item, item.remaining)
+          ) : (
+            <Button
+              style={{
+                backgroundColor: "rgba(140,255,179,29%)",
+                borderColor: "rgba(140,255,179,29%)",
+                color: "#269962",
+              }}
+              className="flex align-center"
+              onClick={() => onAddItem && onAddItem(item)}
+            >
+              <PlusOutlined />
+              <div className="spacer-5"></div>
+              Add
+            </Button>
+          )
         ) : (
           <>
             <div className="flex align-center">
