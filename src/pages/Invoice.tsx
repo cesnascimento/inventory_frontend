@@ -140,7 +140,7 @@ export default function Invoice() {
             total: formatCurrency(item.item.price),
           }))}
           receiptRef={receiptRef}
-          invoice={activeItem.id}
+          invoice={activeItem?.id}
           columns={[
             {
               title: "Item",

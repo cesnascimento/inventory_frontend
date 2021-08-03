@@ -65,7 +65,6 @@ const MainLayout: React.FC = ({ children }) => {
 
   const onShopSelect = ({ shop }: any) => {
     dispatch({ type: ActionTypes.UPDATE_APP_SHOP, payload: JSON.parse(shop) });
-    console.log(JSON.parse(shop));
     setShowModal(false);
   };
 

@@ -29,7 +29,6 @@ export default function SalePieChart() {
     );
     if (res) {
       setSaleChart(res.data);
-      console.log(res.data);
       setFetching(false);
     }
   };
