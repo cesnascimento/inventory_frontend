@@ -35,7 +35,7 @@ const columns: any = [
     dataIndex: "total",
   },
   {
-    title: "",
+    title: "Remove",
     dataIndex: "actions",
   },
 ];
@@ -60,7 +60,8 @@ const NewInvoice: React.FC = () => {
         : null;
 
       if (existingItem) {
-        const newQuantity = existingItem.qty + 1;
+        
+        const newQuantity = existingItem.qty + qty;
         if (newQuantity > newItem.remaining) {
           openNotificationWithIcon(
             NotificationTypes.ERROR,
@@ -246,12 +247,12 @@ const NewInvoice: React.FC = () => {
               activeInvoice?.invoice_items.map((item: any) => ({
                 item: item.item_name,
                 qty: item.quantity,
-                price: formatCurrency(item.amount),
-                total: formatCurrency(item.amount * item.quantity),
+                price: formatCurrency(item.item.price),
+                total: formatCurrency(item.item.price * item.quantity),
                 mainPrice: item.amount,
               })) || itemList
             }
-            columns={columns}
+            columns={[...columns].slice(0, -1)}
             invoice={activeInvoice?.id || 0}
             printedBy={activeInvoice?.created_by.fullname || ""}
           />
