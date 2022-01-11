@@ -88,7 +88,7 @@ export default function Group() {
                 id: item.id,
                 name: item.name,
                 belongsTo: item.belongs_to?.name || "Null",
-                createdBy: <Link to="/">{item.created_by.fullname}</Link>,
+                createdBy: <Link to="/">{item.created_by?.fullname}</Link>,
                 totalItems: item.total_items || 0,
                 createdOn: moment(item.created_at).format("DD-MM-YYYY"),
                 actions: <div className="flex align-center">

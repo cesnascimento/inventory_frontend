@@ -159,7 +159,7 @@ export default function Inventory({
         total: item.total,
         remaining: item.remaining,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
-        addedBy: <Link to="/">{item.added_by.fullname}</Link>,
+        addedBy: <Link to="/">{item.added_by?.fullname}</Link>,
         role: item.role,
         lastLogin: item.last_login,
         actions: noAuth ? null : invoiceSection ? (

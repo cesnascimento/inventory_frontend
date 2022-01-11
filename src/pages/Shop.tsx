@@ -90,7 +90,7 @@ export default function Shop() {
         res.data.results.map((item: any, i: number) => ({
           key: i,
           name: item.name,
-          createdBy: <Link to="/">{item.created_by.fullname}</Link>,
+          createdBy: <Link to="/">{item.created_by?.fullname}</Link>,
           createdOn: moment(item.created_at).format("DD-MM-YYYY"),
           totalSalePrice: formatCurrency(parseFloat(item.amount_total) || 0),
           totalSaleCount: item.count_total || 0,
