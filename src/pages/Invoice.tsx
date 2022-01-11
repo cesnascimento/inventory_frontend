@@ -137,7 +137,7 @@ export default function Invoice() {
             mainPrice: item.item.price,
             item: item.item.name,
             price: formatCurrency(item.item.price),
-            total: formatCurrency(item.item.price),
+            total: formatCurrency(item.item.price * item.quantity),
           }))}
           receiptRef={receiptRef}
           invoice={activeItem?.id}
