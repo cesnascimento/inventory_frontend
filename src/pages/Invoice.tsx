@@ -134,7 +134,7 @@ export default function Invoice() {
             key: i,
             id: item.item.id,
             qty: item.quantity,
-            mainPrice: item.item.price,
+            mainPrice: item.item.price * item.quantity,
             item: item.item.name,
             price: formatCurrency(item.item.price),
             total: formatCurrency(item.item.price * item.quantity),
