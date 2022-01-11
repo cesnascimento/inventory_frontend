@@ -58,7 +58,7 @@ export function InvoiceCardV2({
   invoice?: string;
 }) {
   const total = itemList?.reduce((acc: number, item: any) => {
-    acc +=  item.mainPrice;
+    acc +=  item.total;
     return acc;
   }, 0);
 
