@@ -37,44 +37,44 @@ export default function Sidebar() {
         />
       )}
       <MenuItemCustom
-        title="Inventory"
+        title="Inventário"
         icon={<DatabaseOutlined />}
         linkTo="/inventory"
         isActive={activePage === "/inventory"}
       />
       <MenuItemCustom
-        title="Group"
+        title="Local"
         icon={<ClusterOutlined />}
         linkTo="/group"
         isActive={activePage === "/group"}
       />
-      {isSuperAdmin && (
+      {/* {isSuperAdmin && (
         <MenuItemCustom
-          title="Invoice"
+          title="Fatura"
           icon={<FileDoneOutlined />}
           linkTo="/invoice"
           isActive={activePage === "/invoice"}
         />
-      )}
+      )} */}
       {isSuperAdmin && (
         <MenuItemCustom
-          title="User"
+          title="Usuário"
           icon={<UserOutlined />}
           linkTo="/user"
           isActive={activePage === "/user"}
         />
       )}
-      {isSuperAdmin && (
+      {/* {isSuperAdmin && (
         <MenuItemCustom
           title="Shop"
           icon={<ShopOutlined />}
           linkTo="/shop"
           isActive={activePage === "/shop"}
         />
-      )}
+      )} */}
       {isSuperAdmin && (
         <MenuItemCustom
-          title="User Activities"
+          title="Atividades"
           icon={<NumberOutlined />}
           linkTo="/user-activities"
           isActive={activePage === "/user-activities"}

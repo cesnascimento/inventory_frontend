@@ -39,26 +39,26 @@ export default function Login() {
             name="email"
             rules={[{ required: true, message: "Please input your email" }]}
           >
-            <Input placeholder="Enter email" type="email" />
+            <Input placeholder="Entre com email" type="email" />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label="Senha"
             name="password"
             rules={[{ required: true, message: "Please input your password" }]}
           >
-            <Input placeholder="Enter password" type="password" />
+            <Input placeholder="Entre com a senha" type="password" />
           </Form.Item>
           <Button type="primary" block htmlType="submit" loading={isLoading}>
-            Login
+            Entrar
           </Button>
         </Form>
         <div className="spacer-10v"></div>
-        <Link to="/check-user">New User?</Link>
+        <Link to="/check-user">Novo usuário?</Link>
         <br />
         <br />
         <div style={{ textAlign: "center" }}>
-          <Link to="/inventory-list">VIEW INVENTORY LIST</Link>
+          <Link to="/inventory-list">VEJA O INVENTÁRIO SEM LOGIN</Link>
         </div>
       </AuthLayout>
     );

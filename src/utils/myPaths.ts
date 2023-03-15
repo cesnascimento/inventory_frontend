@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.devtot.com:2096/";
+const BASE_URL = "http://127.0.0.1:8000/";
 
 export const ME_URL = BASE_URL + "user/me";
 export const LOGIN_URL = BASE_URL + "user/login";

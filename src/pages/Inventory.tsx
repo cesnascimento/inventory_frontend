@@ -18,7 +18,7 @@ import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Item Code",
+    title: "Codigo",
     dataIndex: "itemCode",
   },
   {
@@ -155,7 +155,7 @@ export default function Inventory({
         photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
         itemName: item.name,
         itemGroup: item.group?.name,
-        price: formatCurrency(item.price),
+        /* price: formatCurrency(item.price), */
         total: item.total,
         remaining: item.remaining,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
@@ -223,7 +223,7 @@ export default function Inventory({
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Inventory Management</h3>
+          <h3>Gerenciamento do Inventário</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             {!invoiceSection && !noAuth && (

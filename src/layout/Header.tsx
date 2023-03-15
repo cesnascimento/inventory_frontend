@@ -11,15 +11,15 @@ export default function Header() {
   } = useContext(store);
   return (
     <div className="headerMain">
-      <div className="brand">INVENTORY</div>
+      <div className="brand">INVENTÁRIO</div>
       <div className="rightNav">
         <div />
         <div className="flex align-center">
-          {userData.role !== "sale" && (
+          {/* {userData.role !== "sale" && (
             <Link to="/invoice-section">
               <Button type="primary">New Invoice</Button>
             </Link>
-          )}
+          )} */}
           <div className="spacer-10"></div>
           <UserAvatar />
         </div>
