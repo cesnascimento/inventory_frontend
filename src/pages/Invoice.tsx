@@ -112,7 +112,7 @@ export default function Invoice() {
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Invoices</h3>
+          <h3>Fatura</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
           </div>

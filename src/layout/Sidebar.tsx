@@ -24,7 +24,8 @@ export default function Sidebar() {
     setActivePage(location.pathname);
   }, [location]);
 
-  const isSuperAdmin = userData.role === "admin";
+  const isSuperAdmin = userData.is_superuser === true;
+  console.log(isSuperAdmin)
 
   return (
     <div className="sidebarMain">
@@ -66,7 +67,7 @@ export default function Sidebar() {
       )}
       {/* {isSuperAdmin && (
         <MenuItemCustom
-          title="Shop"
+          title="Lojas"
           icon={<ShopOutlined />}
           linkTo="/shop"
           isActive={activePage === "/shop"}
@@ -74,7 +75,7 @@ export default function Sidebar() {
       )} */}
       {isSuperAdmin && (
         <MenuItemCustom
-          title="Atividades"
+          title="Atividades de Usuários"
           icon={<NumberOutlined />}
           linkTo="/user-activities"
           isActive={activePage === "/user-activities"}

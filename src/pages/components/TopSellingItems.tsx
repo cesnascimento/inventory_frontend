@@ -45,7 +45,7 @@ export default function TopSellingItems() {
     return (
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Top Selling Items</h3>
+          <h3>Top Item</h3>
           <DateSelector handleChange={handleDateSelect} />
         </div>
         {fetching ? (

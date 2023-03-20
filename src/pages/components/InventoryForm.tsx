@@ -124,7 +124,20 @@ export default function InventoryForm({
                     </div>
                 </div>
                 <Form.Item
-                    label="Item Name"
+                    label="Grupo/Categoria"
+                    rules={[{ required: true, message: "Please select category" }]}
+                    name="group_id"
+                >
+                    <Select placeholder="Select item category" allowClear>
+                        {groupItem.map((item: any, i: number) => (
+                            <Option key={i} value={item.id}>
+                                {item.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                {/* <Form.Item
+                    label="Nome do Item"
                     name="name"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
@@ -132,7 +145,7 @@ export default function InventoryForm({
                 </Form.Item>
                 {!activeItem && (
                     <Form.Item
-                        label="Total Available"
+                        label="Total de Item Disponível"
                         name="total"
                         rules={[
                             {
@@ -145,7 +158,7 @@ export default function InventoryForm({
                     </Form.Item>
                 )}
                 <Form.Item
-                    label="Group/Category"
+                    label="Grupo/Categoria"
                     rules={[{ required: true, message: "Please select category" }]}
                     name="group_id"
                 >
@@ -158,12 +171,12 @@ export default function InventoryForm({
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="Item Price"
+                    label="Preço do Item"
                     name="price"
                     rules={[{ required: true, message: "Please input item price" }]}
                 >
                     <Input placeholder="Enter item price" type="number" />
-                </Form.Item>
+                </Form.Item> */}
                 <Button block type="primary" htmlType="submit" loading={isLoading}>
                     {activeItem ? "Update" : "Submit"}
                 </Button>

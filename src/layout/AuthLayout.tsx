@@ -4,7 +4,7 @@ interface AuthLayoutProps {
     title?: string
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ title = "Entre", children }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ title = "Entrar", children }) => {
     return (
         <div className="authLayout">
             <div className="authContent">

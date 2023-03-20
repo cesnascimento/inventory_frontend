@@ -64,7 +64,7 @@ export default function SalePerformance() {
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Sale By Shop</h3>
+          <h3>Item por loja</h3>
           <DateSelector picker="month" />
         </div>
         <Chart

@@ -18,7 +18,7 @@ import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Codigo",
+    title: "Item Code",
     dataIndex: "itemCode",
   },
   {
@@ -57,6 +57,46 @@ const columns = [
     title: "Actions",
     dataIndex: "actions",
   },
+  /* {
+    title: "Item Code",
+    dataIndex: "itemCode",
+  },
+  {
+    title: "Photo",
+    dataIndex: "photo",
+  },
+  {
+    title: "Item Name",
+    dataIndex: "itemName",
+  },
+  {
+    title: "Item Group",
+    dataIndex: "itemGroup",
+  },
+  {
+    title: "Price",
+    dataIndex: "price",
+  },
+  {
+    title: "Total",
+    dataIndex: "total",
+  },
+  {
+    title: "Remaining",
+    dataIndex: "remaining",
+  },
+  {
+    title: "Added on",
+    dataIndex: "addedOn",
+  },
+  {
+    title: "Added by",
+    dataIndex: "addedBy",
+  },
+  {
+    title: "Actions",
+    dataIndex: "actions",
+  }, */
 ];
 
 export default function Inventory({
@@ -155,7 +195,7 @@ export default function Inventory({
         photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
         itemName: item.name,
         itemGroup: item.group?.name,
-        /* price: formatCurrency(item.price), */
+        price: formatCurrency(item.price),
         total: item.total,
         remaining: item.remaining,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
@@ -223,7 +263,7 @@ export default function Inventory({
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Gerenciamento do Inventário</h3>
+          <h3>Gestão de Inventário</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             {!invoiceSection && !noAuth && (

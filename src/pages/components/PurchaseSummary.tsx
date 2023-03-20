@@ -36,7 +36,7 @@ export default function PurchaseSummary() {
   return (
     <div className="cardMain">
       <div className="headerContent">
-        <h3>Purchases</h3>
+        <h3>Compras de item</h3>
         <DateSelector />
       </div>
       {fetching ? (
@@ -47,13 +47,13 @@ export default function PurchaseSummary() {
             <div className="count">
               <span>{formatCurrency(summary.price || 0)}</span>
             </div>
-            <div className="info">(Price)</div>
+            <div className="info">(Preço)</div>
           </div>
           <div className="purchaseItem">
             <div className="count">
               <span>{summary.count}</span>
             </div>
-            <div className="info">(Count)</div>
+            <div className="info">(Quantidade)</div>
           </div>
         </>
       )}

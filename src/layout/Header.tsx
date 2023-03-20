@@ -15,11 +15,11 @@ export default function Header() {
       <div className="rightNav">
         <div />
         <div className="flex align-center">
-          {/* {userData.role !== "sale" && (
+          {userData.role !== "sale" && (
             <Link to="/invoice-section">
-              <Button type="primary">New Invoice</Button>
+              <Button type="primary">Nova Fatura</Button>
             </Link>
-          )} */}
+          )}
           <div className="spacer-10"></div>
           <UserAvatar />
         </div>

@@ -51,7 +51,7 @@ export default function SalePieChart() {
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Sale By Shop</h3>
+          <h3>Item por loja</h3>
         </div>
         <Chart
           width={"500px"}

@@ -66,7 +66,7 @@ export default function UserActivity() {
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>User Activities</h3>
+          <h3>Atividades de Usuários</h3>
         </div>
 
         <Table

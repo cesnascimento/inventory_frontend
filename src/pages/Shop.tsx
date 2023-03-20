@@ -133,7 +133,7 @@ export default function Shop() {
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Shops</h3>
+          <h3>Lojas</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             <div className="spacer-10" />

@@ -73,8 +73,8 @@ export const getAppShops = (
 };
 
 export function formatCurrency(num: number) {
-  return num.toLocaleString("en-US", {
+  return num.toLocaleString("pt-BR", {
     style: "currency",
-    currency: "NGN",
+    currency: "BRL",
   });
 }

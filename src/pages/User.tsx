@@ -106,7 +106,7 @@ export default function User() {
         <>
             <div className="cardMain">
                 <div className="headerContent">
-                    <h3>Users</h3>
+                    <h3>Usuários</h3>
                     <div className="flex align-center">
                         <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
                         <div className="spacer-10" />

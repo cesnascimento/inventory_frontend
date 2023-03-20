@@ -16,7 +16,7 @@ const columns = [
         dataIndex: 'id',
     },
     {
-        title: 'Name',
+        title: 'Local',
         dataIndex: 'name',
     },
     {
@@ -128,7 +128,7 @@ export default function Group() {
         <>
             <div className="cardMain">
                 <div className="headerContent">
-                    <h3>Group</h3>
+                    <h3>Local</h3>
                     <div className="flex align-center">
                         <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
                         <div className="spacer-10" />

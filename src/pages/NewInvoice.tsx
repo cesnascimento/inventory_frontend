@@ -268,11 +268,11 @@ const NewInvoice: React.FC = () => {
             type="primary"
             onClick={checkShopState}
           >
-            {"Print & Save"}
+            {"Printar e Salvar"}
           </Button>
           <div className="spacer-10"></div>
           <Button type="primary" onClick={clearItem} danger>
-            Clear
+            Apagar
           </Button>
         </div>
       </div>

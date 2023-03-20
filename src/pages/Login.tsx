@@ -50,15 +50,15 @@ export default function Login() {
             <Input placeholder="Entre com a senha" type="password" />
           </Form.Item>
           <Button type="primary" block htmlType="submit" loading={isLoading}>
-            Entrar
+            Login
           </Button>
         </Form>
         <div className="spacer-10v"></div>
-        <Link to="/check-user">Novo usuário?</Link>
+        <Link to="/check-user">Novo Usuário?</Link>
         <br />
         <br />
         <div style={{ textAlign: "center" }}>
-          <Link to="/inventory-list">VEJA O INVENTÁRIO SEM LOGIN</Link>
+          <Link to="/inventory-list">VEJA A LISTA DO INVENTÁRIO</Link>
         </div>
       </AuthLayout>
     );

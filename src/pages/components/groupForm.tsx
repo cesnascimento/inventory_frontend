@@ -47,11 +47,11 @@ export default function GroupForm({
                 onFinish={onFinish}
             >
                 <Form.Item
-                    label="Group Name"
+                    label="Local"
                     name="name"
                     rules={[{ required: true, message: "Please input group name" }]}
                 >
-                    <Input placeholder="Enter group name" />
+                    <Input placeholder="Entre com o nome do local" />
                 </Form.Item>
                 <Form.Item
                     label="Belongs To (Optional)"

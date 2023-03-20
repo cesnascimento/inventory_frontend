@@ -29,28 +29,28 @@ export default function DashboardContentSumary() {
     return (
         <div className="dashboardContentSumary">
             <DashboardSummaryCard
-                title="Total Items"
+                title="Total de item"
                 count={summaryData?.total_inventory}
                 loading={fetching}
                 icon={<DatabaseOutlined style={{ fontSize: "30px", color: "#4451C2" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total Groups"
+                title="Total Grupos/Categoria"
                 count={summaryData?.total_group}
                 loading={fetching}
                 icon={<ClusterOutlined style={{ fontSize: "30px", color: "#4495C2" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total Shops"
+                title="Total de Lojas"
                 count={summaryData?.total_shop}
                 loading={fetching}
                 icon={<ShopOutlined style={{ fontSize: "30px", color: "#FA9696" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total Users"
+                title="Total Usuários"
                 count={summaryData?.total_users}
                 loading={fetching}
                 icon={<UserOutlined style={{ fontSize: "30px", color: "#02AC32" }} />}
