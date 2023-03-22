@@ -83,6 +83,7 @@ export default function Group() {
         if (res) {
             setGroupData(res.data.results)
             setTotalCount(res.data.count)
+            console.log('aki ->>  ',res.data.results.map((item:any) => item.name))
             setGroups(res.data.results.map((item: any, i: number) => ({
                 key: i,
                 id: item.id,
@@ -132,7 +133,7 @@ export default function Group() {
                     <div className="flex align-center">
                         <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
                         <div className="spacer-10" />
-                        <Button type="primary" onClick={showModal}>Add Group</Button>
+                        <Button type="primary" onClick={showModal}>Add Local</Button>
                     </div>
                 </div>
 
@@ -146,7 +147,7 @@ export default function Group() {
                     }}
                 />
             </div>
-            <Modal title="Add Group" visible={isModalVisible} onCancel={closeModal} footer={false}>
+            <Modal title="Add Local" visible={isModalVisible} onCancel={closeModal} footer={false}>
                 <GroupForm onAddComplete={closeModal} belongsToList={groupData} activeItem={activeItem} />
             </Modal>
         </>

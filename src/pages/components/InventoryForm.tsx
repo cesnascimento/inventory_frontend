@@ -65,10 +65,9 @@ export default function InventoryForm({
     };
 
     const getGroups = async () => {
-        const res = await getAppColab(userToken);
+        const res = await getAppGroups(userToken);
         if (res) {
             setGroupItem(res.data.results);
-            console.log(res.data.results)
         }
     };
 
@@ -130,7 +129,7 @@ export default function InventoryForm({
                     rules={[{ required: true, message: "Please select category" }]}
                     name="group_id"
                 >
-                    <Select placeholder="Select item category" allowClear>
+                    <Select placeholder="Selecione o local" allowClear>
                         {groupItem.map((item: any, i: number) => (
                             <Option key={i} value={item.id}>
                                 {item.name}
@@ -141,9 +140,9 @@ export default function InventoryForm({
                 <Form.Item
                     label="Colaborador"
                     rules={[{ required: true, message: "Please select category" }]}
-                    name="colab_id"
+                    name="colaborador_id"
                 >
-                    <Select placeholder="Select item category" allowClear>
+                    <Select placeholder="Selecione colaborador" allowClear>
                         {groupItem.map((item: any, i: number) => (
                             <Option key={i} value={item.id}>
                                 {item.name}

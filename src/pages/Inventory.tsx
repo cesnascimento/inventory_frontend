@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import {
   errorHandler,
-  formatCurrency,
   NotificationTypes,
   openNotificationWithIcon,
 } from "../utils/functions";
@@ -18,32 +17,44 @@ import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Item Code",
-    dataIndex: "itemCode",
+    title: "Local",
+    dataIndex: "local",
   },
   {
-    title: "Photo",
-    dataIndex: "photo",
+    title: "Patrimônio",
+    dataIndex: "patrimonio",
   },
   {
-    title: "Item Name",
-    dataIndex: "itemName",
+    title: "HostName",
+    dataIndex: "hostname",
   },
   {
-    title: "Item Group",
-    dataIndex: "itemGroup",
+    title: "Colaborador",
+    dataIndex: "colaborador",
   },
   {
-    title: "Price",
-    dataIndex: "price",
+    title: "S.O",
+    dataIndex: "so",
   },
   {
-    title: "Total",
+    title: "Service Tag",
     dataIndex: "total",
   },
   {
-    title: "Remaining",
-    dataIndex: "remaining",
+    title: "NF S.O",
+    dataIndex: "nf_so",
+  },
+  {
+    title: "Empresa",
+    dataIndex: "empresa",
+  },
+  {
+    title: "Marca",
+    dataIndex: "marca",
+  },
+  {
+    title: "Modelo",
+    dataIndex: "modelo",
   },
   {
     title: "Added on",
@@ -57,46 +68,6 @@ const columns = [
     title: "Actions",
     dataIndex: "actions",
   },
-  /* {
-    title: "Item Code",
-    dataIndex: "itemCode",
-  },
-  {
-    title: "Photo",
-    dataIndex: "photo",
-  },
-  {
-    title: "Item Name",
-    dataIndex: "itemName",
-  },
-  {
-    title: "Item Group",
-    dataIndex: "itemGroup",
-  },
-  {
-    title: "Price",
-    dataIndex: "price",
-  },
-  {
-    title: "Total",
-    dataIndex: "total",
-  },
-  {
-    title: "Remaining",
-    dataIndex: "remaining",
-  },
-  {
-    title: "Added on",
-    dataIndex: "addedOn",
-  },
-  {
-    title: "Added by",
-    dataIndex: "addedBy",
-  },
-  {
-    title: "Actions",
-    dataIndex: "actions",
-  }, */
 ];
 
 export default function Inventory({
@@ -189,10 +160,17 @@ export default function Inventory({
 
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aqui', res.data.results.map((item:any )=> console.log(item.patrimonio)))
+      console.log('aqui2 ->>>', res.data.results.map((item:any, i: number) => console.log(item.local?.name)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
-        itemCode: item.patrimonio,
+        local: item.local?.name,
+        patrimonio: item.patrimonio,
+        hostname: item.hostname,
+        colaborador: item.colaborador?.name,
+        so: item.sistema_operacional,
+        service_tag: item.sistema_operacional,
+        addedOn: moment(item.created_at).format("DD-MM-YYYY"),
+        addedBy: <Link to="/">{item.added_by?.fullname}</Link>,
         /* photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
         itemName: item.name,
         itemGroup: item.group?.name,
@@ -240,7 +218,6 @@ export default function Inventory({
         ),
       }));
       setInventory([...data]);
-      console.log('aqui data', data)
     }
 
     setFetching(false);
@@ -290,7 +267,6 @@ export default function Inventory({
             )}
           </div>
         </div>
-        {console.log('aqui2', inventory)}
         <Table
           dataSource={inventory}
           columns={newColumns}
