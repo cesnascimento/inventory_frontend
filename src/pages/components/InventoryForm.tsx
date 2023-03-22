@@ -7,6 +7,7 @@ import { INVENTORY_URL } from "../../utils/myPaths";
 import {
     errorHandler,
     getAppGroups,
+    getAppColab,
     NotificationTypes,
     openNotificationWithIcon,
 } from "../../utils/functions";
@@ -64,9 +65,10 @@ export default function InventoryForm({
     };
 
     const getGroups = async () => {
-        const res = await getAppGroups(userToken);
+        const res = await getAppColab(userToken);
         if (res) {
             setGroupItem(res.data.results);
+            console.log(res.data.results)
         }
     };
 
@@ -127,6 +129,19 @@ export default function InventoryForm({
                     label="Grupo/Categoria"
                     rules={[{ required: true, message: "Please select category" }]}
                     name="group_id"
+                >
+                    <Select placeholder="Select item category" allowClear>
+                        {groupItem.map((item: any, i: number) => (
+                            <Option key={i} value={item.id}>
+                                {item.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    label="Colaborador"
+                    rules={[{ required: true, message: "Please select category" }]}
+                    name="colab_id"
                 >
                     <Select placeholder="Select item category" allowClear>
                         {groupItem.map((item: any, i: number) => (

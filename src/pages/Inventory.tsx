@@ -184,15 +184,16 @@ export default function Inventory({
       INVENTORY_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
     );
 
     if (res) {
       setTotalCount(res.data.count);
+      console.log('aqui', res.data.results.map((item:any )=> console.log(item.patrimonio)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
-        itemCode: item.code,
-        photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
+        itemCode: item.patrimonio,
+        /* photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
         itemName: item.name,
         itemGroup: item.group?.name,
         price: formatCurrency(item.price),
@@ -201,7 +202,7 @@ export default function Inventory({
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
         addedBy: <Link to="/">{item.added_by?.fullname}</Link>,
         role: item.role,
-        lastLogin: item.last_login,
+        lastLogin: item.last_login, */
         actions: noAuth ? null : invoiceSection ? (
           formAction ? (
             formAction(item, item.remaining)
@@ -239,6 +240,7 @@ export default function Inventory({
         ),
       }));
       setInventory([...data]);
+      console.log('aqui data', data)
     }
 
     setFetching(false);
@@ -288,7 +290,7 @@ export default function Inventory({
             )}
           </div>
         </div>
-
+        {console.log('aqui2', inventory)}
         <Table
           dataSource={inventory}
           columns={newColumns}

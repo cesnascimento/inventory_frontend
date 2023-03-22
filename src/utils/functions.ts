@@ -1,7 +1,7 @@
 import { notification } from "antd";
 import { USERTOKEN } from "../layout/MainLayout";
 import Axios from "axios";
-import { GROUP_URL, SHOP_URL } from "./myPaths";
+import { GROUP_URL, SHOP_URL, COLABORATE_URL } from "./myPaths";
 
 export const redirectToLogin = (history: any) => {
   history.push("/login");
@@ -49,6 +49,21 @@ export const getAppGroups = (
 ) => {
   return Axios.get(
     GROUP_URL + `?page=${currentPage || 1}&keyword=${search || ""}`,
+    {
+      headers: { Authorization: userToken },
+    }
+  ).catch((e) =>
+    openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+  );
+};
+
+export const getAppColab = (
+  userToken: string,
+  currentPage?: number,
+  search?: string
+) => {
+  return Axios.get(
+    COLABORATE_URL + `?page=${currentPage || 1}&keyword=${search || ""}`,
     {
       headers: { Authorization: userToken },
     }
