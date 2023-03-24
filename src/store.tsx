@@ -57,8 +57,9 @@ const userInitialData: { userData: any; userToken: string | null } = {
   userToken: null,
 };
 
-const appInitialData: { groups: any; shop: any } = {
+const appInitialData: { groups: any; shop: any, colaborador: any } = {
   groups: null,
+  colaborador: null,
   shop: null,
 };
 

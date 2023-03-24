@@ -3,7 +3,7 @@ import { CameraOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, } from "antd";
 import Axios from "axios";
 import { store } from "../../store";
-import { INVENTORY_URL } from "../../utils/myPaths";
+import { INVENTORY_NOTEBOOK_URL } from "../../utils/myPaths";
 import {
     errorHandler,
     getAppGroups,
@@ -47,9 +47,9 @@ export default function InventoryForm({
         } else {
           formData = values;
         }
-        let url = INVENTORY_URL
+        let url = INVENTORY_NOTEBOOK_URL
         if (activeItem) {
-            url = INVENTORY_URL + `/${activeItem.id}`
+            url = INVENTORY_NOTEBOOK_URL + `/${activeItem.id}`
         }
         const result = await Axios[activeItem ? "patch" : "post"](url, formData, {
             headers: { Authorization: userToken },

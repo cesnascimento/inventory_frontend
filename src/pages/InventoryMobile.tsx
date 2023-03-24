@@ -2,7 +2,7 @@ import { Button, Table, Modal, Popconfirm } from "antd";
 import Searchbar from "./components/Searchbar";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useContext, useEffect, useState } from "react";
-import InventoryForm from "./components/InventoryForm";
+import InventoryMobileForm from "./components/InventoryMobileForm";
 import { store } from "../store";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -12,41 +12,13 @@ import {
   NotificationTypes,
   openNotificationWithIcon,
 } from "../utils/functions";
-import { INVENTORY_URL } from "../utils/myPaths";
+import { INVENTORY_MOBILE_URL } from "../utils/myPaths";
 import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Local",
-    dataIndex: "local",
-  },
-  {
-    title: "Patrimônio",
+    title: "Patrimonio",
     dataIndex: "patrimonio",
-  },
-  {
-    title: "HostName",
-    dataIndex: "hostname",
-  },
-  {
-    title: "Colaborador",
-    dataIndex: "colaborador",
-  },
-  {
-    title: "S.O",
-    dataIndex: "so",
-  },
-  {
-    title: "Service Tag",
-    dataIndex: "service_tag",
-  },
-  {
-    title: "NF S.O",
-    dataIndex: "nf_so",
-  },
-  {
-    title: "Empresa",
-    dataIndex: "empresa",
   },
   {
     title: "Marca",
@@ -57,8 +29,24 @@ const columns = [
     dataIndex: "modelo",
   },
   {
-    title: "Configuração",
-    dataIndex: "configuracao",
+    title: "Colaborador",
+    dataIndex: "colaborador",
+  },
+  {
+    title: "IMEI",
+    dataIndex: "imei",
+  },
+  {
+    title: "NF",
+    dataIndex: "nf",
+  },
+  {
+    title: "Linha",
+    dataIndex: "linha",
+  },
+  {
+    title: "OBS",
+    dataIndex: "obs",
   },
   {
     title: "Adicionado em",
@@ -131,7 +119,7 @@ export default function Inventory({
   const onDelete = async (id: any) => {
     setFetching(true);
     const res: any = Axios.delete(
-      INVENTORY_URL + `/${id}`,
+      INVENTORY_MOBILE_URL + `/${id}`,
       noAuth
         ? {}
         : {
@@ -156,40 +144,25 @@ export default function Inventory({
     setFetching(true);
 
     const res = await Axios.get(
-      INVENTORY_URL + `?page=${currentPage}&keyword=${search}`,
+      INVENTORY_MOBILE_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
     );
-
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aqui2 ->>>', res.data.results.map((item:any, i: number) => console.log(item.local?.name)))
+      console.log('aquimobile ->>>', res.data.results.map((item:any, i: number) => console.log(item.marca)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
-        local: item.local?.name,
         patrimonio: item.patrimonio,
-        hostname: item.hostname,
-        colaborador: item.colaborador?.name,
-        so: item.sistema_operacional,
-        service_tag: item.service_tag,
-        nf_so: item.nf_so,
-        empresa: item.empresa,
         marca: item.marca,
         modelo: item.modelo,
-        configuracao: item.configuracao,
+        colaborador: item.colaborador?.name,
+        imei: item.imei,
+        nf: item.nf,
+        linha: item.linha,
+        obs: item.obs,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
-        /* addedBy: <Link to="/">{item.created_by?.fullname}</Link>, */
-        /* photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
-        itemName: item.name,
-        itemGroup: item.group?.name,
-        price: formatCurrency(item.price),
-        total: item.total,
-        remaining: item.remaining,
-        addedOn: moment(item.created_at).format("DD-MM-YYYY"),
-        addedBy: <Link to="/">{item.added_by?.fullname}</Link>,
-        role: item.role,
-        lastLogin: item.last_login, */
         actions: noAuth ? null : invoiceSection ? (
           formAction ? (
             formAction(item, item.remaining)
@@ -251,7 +224,7 @@ export default function Inventory({
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Gestão de Inventário</h3>
+          <h3>Gestão de Inventário Mobile</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             {!invoiceSection && !noAuth && (
@@ -288,13 +261,13 @@ export default function Inventory({
         />
       </div>
       <Modal
-        title={isSingleAdd ? "Add item" : "Import your items"}
+        title={isSingleAdd ? "Add item Mobile" : "Import your items"}
         visible={isModalVisible}
         onCancel={closeModal}
         footer={false}
       >
         {isSingleAdd ? (
-          <InventoryForm onAddComplete={closeModal} activeItem={activeItem} />
+          <InventoryMobileForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
           <InventoryFormExcel onAddComplete={closeModal} />
         )}

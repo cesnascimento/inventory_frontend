@@ -5,6 +5,9 @@ import {
   NumberOutlined,
   ClusterOutlined,
   FileDoneOutlined,
+  UsergroupDeleteOutlined,
+  UsergroupAddOutlined,
+  DesktopOutlined,
   UserOutlined,
   ShopOutlined,
 } from "@ant-design/icons";
@@ -38,25 +41,37 @@ export default function Sidebar() {
         />
       )}
       <MenuItemCustom
-        title="Inventário"
-        icon={<DatabaseOutlined />}
+        title="Inventário Desktop"
+        icon={<DesktopOutlined />}
         linkTo="/inventory"
         isActive={activePage === "/inventory"}
       />
       <MenuItemCustom
+        title="Inventário Notebook"
+        icon={<DesktopOutlined />}
+        linkTo="/inventory-notebook"
+        isActive={activePage === "/inventory-notebook"}
+      />
+      <MenuItemCustom
+        title="Inventário Mobile"
+        icon={<DesktopOutlined />}
+        linkTo="/inventory-mobile"
+        isActive={activePage === "/inventory-mobile"}
+      />
+      <MenuItemCustom
         title="Local"
-        icon={<ClusterOutlined />}
+        icon={<ShopOutlined />}
         linkTo="/group"
         isActive={activePage === "/group"}
       />
-      {/* {isSuperAdmin && (
+      {isSuperAdmin && (
         <MenuItemCustom
-          title="Fatura"
-          icon={<FileDoneOutlined />}
-          linkTo="/invoice"
-          isActive={activePage === "/invoice"}
+          title="Colaborador"
+          icon={<UsergroupAddOutlined />}
+          linkTo="/colab"
+          isActive={activePage === "/colab"}
         />
-      )} */}
+      )}
       {isSuperAdmin && (
         <MenuItemCustom
           title="Usuário"

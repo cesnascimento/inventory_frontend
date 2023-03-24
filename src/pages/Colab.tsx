@@ -2,13 +2,13 @@ import { Button, Table, Modal, Popconfirm } from 'antd'
 import Searchbar from './components/Searchbar'
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { useContext, useEffect, useState } from 'react';
-import GroupForm from './components/groupForm';
+import ColabForm from './components/colabForm';
 import moment from 'moment';
-import { errorHandler, getAppGroups, NotificationTypes, openNotificationWithIcon } from '../utils/functions';
+import { errorHandler, getAppColab, NotificationTypes, openNotificationWithIcon } from '../utils/functions';
 import { ActionTypes, store } from '../store';
 import { Link } from 'react-router-dom';
 import Axios from "axios";
-import { GROUP_URL } from '../utils/myPaths';
+import { COLABORATE_URL } from '../utils/myPaths';
 
 const columns = [
     {
@@ -16,20 +16,16 @@ const columns = [
         dataIndex: 'id',
     },
     {
-        title: 'Local',
+        title: 'Colaborador',
         dataIndex: 'name',
-    },
-    /* {
-        title: 'Belongs To (Another Group)',
-        dataIndex: 'belongsTo',
-    }, */
-    {
-        title: 'Criado por',
-        dataIndex: 'createdBy',
     },
     {
         title: 'Equipamentos',
         dataIndex: 'totalItems',
+    },
+    {
+        title: 'Criado por',
+        dataIndex: 'createdBy',
     },
     {
         title: 'Criado em',
@@ -60,7 +56,7 @@ export default function Group() {
 
     const onDelete = async (id: any) => {
         setFetching(true)
-        const res: any = Axios.delete(GROUP_URL + `/${id}`, { headers: { Authorization: userToken } }
+        const res: any = Axios.delete(COLABORATE_URL + `/${id}`, { headers: { Authorization: userToken } }
         ).catch((e) => {
             openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
             setFetching(false)
@@ -78,12 +74,12 @@ export default function Group() {
 
         setFetching(true)
 
-        const res = await getAppGroups(userToken, currentPage, search)
+        const res = await getAppColab(userToken, currentPage, search)
 
         if (res) {
             setGroupData(res.data.results)
             setTotalCount(res.data.count)
-            console.log('aki ->>  ',res.data.results.map((item:any) => item.name))
+            console.log('akicolab ->>  ',res.data.results.map((item:any) => item))
             setGroups(res.data.results.map((item: any, i: number) => ({
                 key: i,
                 id: item.id,
@@ -129,11 +125,11 @@ export default function Group() {
         <>
             <div className="cardMain">
                 <div className="headerContent">
-                    <h3>Local</h3>
+                    <h3>Colaborador</h3>
                     <div className="flex align-center">
                         <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
                         <div className="spacer-10" />
-                        <Button type="primary" onClick={showModal}>Add Local</Button>
+                        <Button type="primary" onClick={showModal}>Add Colaborador</Button>
                     </div>
                 </div>
 
@@ -148,7 +144,7 @@ export default function Group() {
                 />
             </div>
             <Modal title="Add Local" visible={isModalVisible} onCancel={closeModal} footer={false}>
-                <GroupForm onAddComplete={closeModal} belongsToList={groupData} activeItem={activeItem} />
+                <ColabForm onAddComplete={closeModal} belongsToList={groupData} activeItem={activeItem} />
             </Modal>
         </>
     )

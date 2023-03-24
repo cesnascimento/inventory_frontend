@@ -2,7 +2,7 @@ import { Button, Table, Modal, Popconfirm } from "antd";
 import Searchbar from "./components/Searchbar";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useContext, useEffect, useState } from "react";
-import InventoryForm from "./components/InventoryForm";
+import InventoryNotebookForm from "./components/InventoryNotebookForm";
 import { store } from "../store";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import {
   NotificationTypes,
   openNotificationWithIcon,
 } from "../utils/functions";
-import { INVENTORY_URL } from "../utils/myPaths";
+import { INVENTORY_NOTEBOOK_URL } from "../utils/myPaths";
 import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
@@ -131,7 +131,7 @@ export default function Inventory({
   const onDelete = async (id: any) => {
     setFetching(true);
     const res: any = Axios.delete(
-      INVENTORY_URL + `/${id}`,
+      INVENTORY_NOTEBOOK_URL + `/${id}`,
       noAuth
         ? {}
         : {
@@ -156,15 +156,14 @@ export default function Inventory({
     setFetching(true);
 
     const res = await Axios.get(
-      INVENTORY_URL + `?page=${currentPage}&keyword=${search}`,
+      INVENTORY_NOTEBOOK_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
     );
-
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aqui2 ->>>', res.data.results.map((item:any, i: number) => console.log(item.local?.name)))
+      console.log('aquinotebook ->>>', res.data.results.map((item:any, i: number) => console.log(item)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         local: item.local?.name,
@@ -179,17 +178,6 @@ export default function Inventory({
         modelo: item.modelo,
         configuracao: item.configuracao,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
-        /* addedBy: <Link to="/">{item.created_by?.fullname}</Link>, */
-        /* photo: item.photo ? <img src={item.photo} alt="" height="40" /> : "N/A",
-        itemName: item.name,
-        itemGroup: item.group?.name,
-        price: formatCurrency(item.price),
-        total: item.total,
-        remaining: item.remaining,
-        addedOn: moment(item.created_at).format("DD-MM-YYYY"),
-        addedBy: <Link to="/">{item.added_by?.fullname}</Link>,
-        role: item.role,
-        lastLogin: item.last_login, */
         actions: noAuth ? null : invoiceSection ? (
           formAction ? (
             formAction(item, item.remaining)
@@ -251,7 +239,7 @@ export default function Inventory({
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Gestão de Inventário</h3>
+          <h3>Gestão de Inventário Notebook</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             {!invoiceSection && !noAuth && (
@@ -288,13 +276,13 @@ export default function Inventory({
         />
       </div>
       <Modal
-        title={isSingleAdd ? "Add item" : "Import your items"}
+        title={isSingleAdd ? "Add item Notebook" : "Import your items"}
         visible={isModalVisible}
         onCancel={closeModal}
         footer={false}
       >
         {isSingleAdd ? (
-          <InventoryForm onAddComplete={closeModal} activeItem={activeItem} />
+          <InventoryNotebookForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
           <InventoryFormExcel onAddComplete={closeModal} />
         )}

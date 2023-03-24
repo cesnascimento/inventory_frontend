@@ -3,7 +3,7 @@ import { CameraOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, } from "antd";
 import Axios from "axios";
 import { store } from "../../store";
-import { INVENTORY_URL } from "../../utils/myPaths";
+import { INVENTORY_MOBILE_URL } from "../../utils/myPaths";
 import {
     errorHandler,
     getAppGroups,
@@ -47,9 +47,9 @@ export default function InventoryForm({
         } else {
           formData = values;
         }
-        let url = INVENTORY_URL
+        let url = INVENTORY_MOBILE_URL
         if (activeItem) {
-            url = INVENTORY_URL + `/${activeItem.id}`
+            url = INVENTORY_MOBILE_URL + `/${activeItem.id}`
         }
         const result = await Axios[activeItem ? "patch" : "post"](url, formData, {
             headers: { Authorization: userToken },
@@ -143,28 +143,22 @@ export default function InventoryForm({
                     </div>
                 </div>
                 <Form.Item
-                    label="Local"
-                    rules={[{ required: true, message: "Please select category" }]}
-                    name="local_id"
-                >
-                    <Select placeholder="Selecione o local" allowClear>
-                        {groupItem.map((item: any, i: number) => (
-                            <Option key={i} value={item.id}>
-                                {item.name}
-                            </Option>
-                        ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item
-                    label="Patrimônio"
+                    label="Patrimonio"
                     name="patrimonio"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Digite o patrimônio" />
                 </Form.Item>
                 <Form.Item
-                    label="HostName"
-                    name="hostname"
+                    label="Marca"
+                    name="marca"
+                    rules={[{ required: true, message: "Please input item name" }]}
+                >
+                    <Input placeholder="Digite o patrimônio" />
+                </Form.Item>
+                <Form.Item
+                    label="Modelo"
+                    name="modelo"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Enter item name" />
@@ -183,49 +177,35 @@ export default function InventoryForm({
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="S.O"
-                    name="sistema_operacional"
+                    label="IMEI"
+                    name="imei"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Digite o sistema operacional" />
                 </Form.Item>
                 <Form.Item
-                    label="Service Tag"
-                    name="service_tag"
+                    label="NF"
+                    name="nf"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Enter item name" />
                 </Form.Item>
                 <Form.Item
-                    label="NF S.O"
-                    name="nf_so"
+                    label="Linha"
+                    name="linha"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Enter item name" />
                 </Form.Item>
                 <Form.Item
-                    label="Empresa"
-                    name="empresa"
+                    label="OBS"
+                    name="obs"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >
                     <Input placeholder="Enter item name" />
                 </Form.Item>
                 <Form.Item
-                    label="Marca"
-                    name="marca"
-                    rules={[{ required: true, message: "Please input item name" }]}
-                >
-                    <Input placeholder="Enter item name" />
-                </Form.Item>
-                <Form.Item
-                    label="Modelo"
-                    name="modelo"
-                    rules={[{ required: true, message: "Please input item name" }]}
-                >
-                    <Input placeholder="Enter item name" />
-                </Form.Item>
-                <Form.Item
-                    label="Configuração"
+                    label="OBS:"
                     name="configuracao"
                     rules={[{ required: true, message: "Please input item name" }]}
                 >

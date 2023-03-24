@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
+import InventoryNotebook from "./pages/InventoryNotebook";
+import InventoryMobile from "./pages/InventoryMobile";
+import Colab from "./pages/Colab";
 import Group from "./pages/Group";
 import User from "./pages/User";
 import Shop from "./pages/Shop";
@@ -29,6 +32,9 @@ export default function Router() {
             <MainLayout>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/inventory" component={Inventory} />
+              <Route exact path="/inventory-notebook" component={InventoryNotebook} />
+              <Route exact path="/inventory-mobile" component={InventoryMobile} />
+              <Route exact path="/colab" component={Colab} />
               <Route exact path="/invoice" component={Invoice} />
               <Route exact path="/group" component={Group} />
               <Route exact path="/user" component={User} />
