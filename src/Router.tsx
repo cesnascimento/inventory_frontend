@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
 import InventoryNotebook from "./pages/InventoryNotebook";
 import InventoryMobile from "./pages/InventoryMobile";
+import InventoryDatacenter from "./pages/InventoryDatacenter";
 import Colab from "./pages/Colab";
 import Group from "./pages/Group";
 import User from "./pages/User";
@@ -34,6 +35,7 @@ export default function Router() {
               <Route exact path="/inventory" component={Inventory} />
               <Route exact path="/inventory-notebook" component={InventoryNotebook} />
               <Route exact path="/inventory-mobile" component={InventoryMobile} />
+              <Route exact path="/inventory-datacenter" component={InventoryDatacenter} />
               <Route exact path="/colab" component={Colab} />
               <Route exact path="/invoice" component={Invoice} />
               <Route exact path="/group" component={Group} />

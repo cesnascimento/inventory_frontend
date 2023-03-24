@@ -2,7 +2,7 @@ import { Button, Table, Modal, Popconfirm } from "antd";
 import Searchbar from "./components/Searchbar";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useContext, useEffect, useState } from "react";
-import InventoryForm from "./components/InventoryForm";
+import InventoryDatacenterForm from "./components/InventoryDatacenterForm";
 import { store } from "../store";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -12,20 +12,20 @@ import {
   NotificationTypes,
   openNotificationWithIcon,
 } from "../utils/functions";
-import { INVENTORY_URL } from "../utils/myPaths";
+import { INVENTORY_DATACENTER_URL } from "../utils/myPaths";
 import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Local",
-    dataIndex: "local",
+    title: "IP",
+    dataIndex: "ip",
   },
   {
-    title: "Patrimônio",
-    dataIndex: "patrimonio",
+    title: "descricao",
+    dataIndex: "descricao",
   },
   {
-    title: "HostName",
+    title: "hostname",
     dataIndex: "hostname",
   },
   {
@@ -33,19 +33,19 @@ const columns = [
     dataIndex: "colaborador",
   },
   {
-    title: "S.O",
-    dataIndex: "so",
+    title: "Sistema Operacional",
+    dataIndex: "sistema_operacional",
   },
   {
     title: "Service Tag",
     dataIndex: "service_tag",
   },
   {
-    title: "NF S.O",
+    title: "NF",
     dataIndex: "nf_so",
   },
   {
-    title: "Empresa",
+    title: "empresa",
     dataIndex: "empresa",
   },
   {
@@ -64,10 +64,6 @@ const columns = [
     title: "Adicionado em",
     dataIndex: "addedOn",
   },
-  /* {
-    title: "Added by",
-    dataIndex: "addedBy",
-  }, */
   {
     title: "Ações",
     dataIndex: "actions",
@@ -131,7 +127,7 @@ export default function Inventory({
   const onDelete = async (id: any) => {
     setFetching(true);
     const res: any = Axios.delete(
-      INVENTORY_URL + `/${id}`,
+      INVENTORY_DATACENTER_URL + `/${id}`,
       noAuth
         ? {}
         : {
@@ -156,23 +152,21 @@ export default function Inventory({
     setFetching(true);
 
     const res = await Axios.get(
-      INVENTORY_URL + `?page=${currentPage}&keyword=${search}`,
+      INVENTORY_DATACENTER_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
     );
-
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aqui2 ->>>', res.data.results.map((item:any, i: number) => console.log(item.local?.name)))
+      console.log('aquimdatacenter ->>>', res.data.results.map((item:any, i: number) => console.log(item.empresa)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
-        local: item.local?.name,
-        patrimonio: item.patrimonio,
+        ip: item.ip,
+        descricao: item.descricao,
         hostname: item.hostname,
         colaborador: item.colaborador?.name,
-        so: item.sistema_operacional,
-        service_tag: item.service_tag,
+        sistema_operacional: item.sistema_operacional,
         nf_so: item.nf_so,
         empresa: item.empresa,
         marca: item.marca,
@@ -240,7 +234,7 @@ export default function Inventory({
     <>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Gestão de Inventário Desktop</h3>
+          <h3>Gestão de Inventário DataCenter</h3>
           <div className="flex align-center">
             <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
             {!invoiceSection && !noAuth && (
@@ -259,7 +253,7 @@ export default function Inventory({
                 </Button>
                 <div className="spacer-10" />
                 <Button type="primary" onClick={() => showModal(false)}>
-                  Exportar (CSV)
+                  Add Item (Excel)
                 </Button>
               </>
             )}
@@ -277,13 +271,13 @@ export default function Inventory({
         />
       </div>
       <Modal
-        title={isSingleAdd ? "Add item" : "Import your items"}
+        title={isSingleAdd ? "Add item Mobile" : "Import your items"}
         visible={isModalVisible}
         onCancel={closeModal}
         footer={false}
       >
         {isSingleAdd ? (
-          <InventoryForm onAddComplete={closeModal} activeItem={activeItem} />
+          <InventoryDatacenterForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
           <InventoryFormExcel onAddComplete={closeModal} />
         )}

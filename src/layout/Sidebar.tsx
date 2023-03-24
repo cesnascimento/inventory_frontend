@@ -59,6 +59,12 @@ export default function Sidebar() {
         isActive={activePage === "/inventory-mobile"}
       />
       <MenuItemCustom
+        title="Inventário DataCenter"
+        icon={<DesktopOutlined />}
+        linkTo="/inventory-datacenter"
+        isActive={activePage === "/inventory-datacenter"}
+      />
+      <MenuItemCustom
         title="Local"
         icon={<ShopOutlined />}
         linkTo="/group"

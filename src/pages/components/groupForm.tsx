@@ -53,7 +53,7 @@ export default function GroupForm({
                 >
                     <Input placeholder="Entre com o nome do local" />
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                     label="Belongs To (Optional)"
                     name="belongs_to_id"
                 >
@@ -68,7 +68,7 @@ export default function GroupForm({
                                 <Option value="">Loading...</Option>
                         }
                     </Select>
-                </Form.Item>
+                </Form.Item> */}
                 <Button block type="primary" htmlType="submit" loading={isLoading}>
                     {activeItem ? "Update" : "Submit"}
                 </Button>

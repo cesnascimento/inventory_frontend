@@ -11,6 +11,7 @@ export default function InventoryFormExcel({
     const [isLoading, setIsLoading] = useState(false)
     const { state: { userToken } } = useContext(store)
     const [selectedFile, setSelectedFile]: any = useState(null)
+    const [csvUrl, setCsvUrl] = useState<string | null>(null);
     const [form] = Form.useForm()
 
     const handleFileSelect = (e: any) => {
@@ -18,41 +19,51 @@ export default function InventoryFormExcel({
     }
 
     const onFinish = async (values: any) => {
-        setIsLoading(true)
-        const formData = new FormData()
-        formData.append("data", selectedFile)
-
-        const result = await Axios.post(INVENTORY_CSV_URL, formData, { headers: { Authorization: userToken } }).catch(
-            e => openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
-        )
-        if (result) {
-            openNotificationWithIcon(NotificationTypes.SUCCESS, "Item Added Successfully")
-            form.resetFields()
-            onAddComplete()
-        }
-        setIsLoading(false)
+        Axios({
+            method: 'get',
+            url: 'api/inventory-csv/', // coloque aqui a URL da sua view de export
+            responseType: 'blob',
+          }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'inventory.csv'); // nome do arquivo a ser baixado
+            document.body.appendChild(link);
+            link.click();
+          });
     }
+
+    const exportInventoryCSV = async () => {
+        try {
+          const userToken = localStorage.getItem("userToken");
+          const res = await Axios.get('http://localhost:8000/app/export-csv/', {
+            headers: {
+              Authorization: userToken,
+            },
+            responseType: "blob", // Para obter uma resposta binária
+          });
+          const blob = new Blob([res.data], { type: "text/csv" }); // Transforma a resposta em Blob
+          const url = window.URL.createObjectURL(blob); // Cria uma URL para download do arquivo
+          const link = document.createElement("a"); // Cria um elemento de âncora
+          link.href = url; // Define o URL de download do arquivo
+          link.setAttribute("download", "inventory.csv"); // Define o nome do arquivo a ser baixado
+          document.body.appendChild(link); // Adiciona o elemento ao corpo do documento
+          link.click(); // Inicia o download do arquivo
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
 
     return (
         <div>
             <Form
                 form={form}
                 layout="vertical"
-                onFinish={onFinish}
+                onFinish={exportInventoryCSV}
             >
-                <Form.Item
-                    label="File (CSV)"
-                    name="file"
-                    rules={[{ required: true, message: "Please upload your csv file" }]}
-                >
-                    <Input placeholder="Choose File" type="file" accept=".csv" onChange={handleFileSelect} />
-                </Form.Item>
-                <a href={window.location.origin + "/inventory_sample.csv"} download="inventory_sample">
-                    Click here to download sample file.
-                </a><br />
-                <strong style={{ color: "red" }}>(NB: Do not include the labels in your data, they are just for description)</strong>
-                <div className="spacer-10v" />
-                <Button block type="primary" htmlType="submit" loading={isLoading}>Submit</Button>
+
+                <Button block type="primary" htmlType="submit" loading={isLoading}>DOWNLOAD</Button>
             </Form>
         </div>
     )
