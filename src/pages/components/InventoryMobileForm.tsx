@@ -164,6 +164,13 @@ export default function InventoryForm({
                     <Input placeholder="Enter item name" />
                 </Form.Item>
                 <Form.Item
+                    label="Usuário"
+                    name="usuario"
+                    rules={[{ required: true, message: "Please input item name" }]}
+                >
+                    <Input placeholder="Enter item name usuario" />
+                </Form.Item>
+                <Form.Item
                     label="Colaborador"
                     rules={[{ required: true, message: "Please select category" }]}
                     name="colaborador_id"

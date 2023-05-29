@@ -29,6 +29,10 @@ const columns = [
     dataIndex: "modelo",
   },
   {
+    title: "Usuário",
+    dataIndex: "usuario",
+  },
+  {
     title: "Colaborador",
     dataIndex: "colaborador",
   },
@@ -151,12 +155,12 @@ export default function Inventory({
     );
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aquimobile ->>>', res.data.results.map((item:any, i: number) => console.log(item.marca)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         patrimonio: item.patrimonio,
         marca: item.marca,
         modelo: item.modelo,
+        usuario: item.usuario,
         colaborador: item.colaborador?.name,
         imei: item.imei,
         nf: item.nf,
@@ -222,7 +226,7 @@ export default function Inventory({
 
   return (
     <>
-      <div className="cardMain">
+      <div className="cardMain" style={{ width: "calc(100vw - 250px)" }}>
         <div className="headerContent">
           <h3>Gestão de Inventário Mobile</h3>
           <div className="flex align-center">

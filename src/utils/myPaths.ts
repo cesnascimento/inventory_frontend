@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.74.51.39:8000/";
+const BASE_URL = "http://10.74.51.38:8000/";
 
 export const ME_URL = BASE_URL + "user/me";
 export const LOGIN_URL = BASE_URL + "user/login";

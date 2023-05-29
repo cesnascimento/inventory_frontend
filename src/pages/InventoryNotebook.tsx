@@ -29,6 +29,10 @@ const columns = [
     dataIndex: "hostname",
   },
   {
+    title: "Usuário",
+    dataIndex: "usuario",
+  },
+  {
     title: "Colaborador",
     dataIndex: "colaborador",
   },
@@ -169,6 +173,7 @@ export default function Inventory({
         local: item.local?.name,
         patrimonio: item.patrimonio,
         hostname: item.hostname,
+        usuario: item.usuario,
         colaborador: item.colaborador?.name,
         so: item.sistema_operacional,
         service_tag: item.service_tag,
@@ -237,7 +242,7 @@ export default function Inventory({
 
   return (
     <>
-      <div className="cardMain">
+      <div className="cardMain" style={{ width: "calc(100vw - 250px)" }}>
         <div className="headerContent">
           <h3>Gestão de Inventário Notebook</h3>
           <div className="flex align-center">

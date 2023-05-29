@@ -32,7 +32,8 @@ export default function InventoryForm({
     const [form] = Form.useForm();
     const imageUpload: any = useRef();
     const [groupItem, setGroupItem] = useState([]);
-    const [colabItem, setColabItem] = useState([]);
+    const [colabItem, setColabItem] = useState<any[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const onFinish = async (values: any) => {
         setIsLoading(true);
@@ -74,8 +75,8 @@ export default function InventoryForm({
         }
     };
 
-    const getColabs = async () => {
-        const res = await getAppColab(userToken);
+    const getColabs = async (page?:number) => {
+        const res = await getAppColab(userToken, page);
         if (res) {
             setColabItem(res.data.results);
         }
@@ -121,6 +122,46 @@ export default function InventoryForm({
             setImageContent(activeItem.photo)
         }
     }, [activeItem, groupItem, colabItem])
+
+    /* const selectElement = document.querySelector('.colaborador') as HTMLElement;
+    let currentPage = 1;
+
+    selectElement?.addEventListener('scroll', (e) => {
+        console.log('scrool', e)
+        const scrollPosition = selectElement.scrollTop + selectElement.offsetHeight;
+        const totalHeight = selectElement.scrollHeight;
+    
+    if (scrollPosition === totalHeight) {
+        console.log('Final de scroll alcançado!');
+    }
+    });
+
+    console.log(selectElement) */
+
+    const handleScroll = (event: any) => {
+        const element = event.target;
+    
+        const scrollPosition = element.scrollTop + element.clientHeight;
+        const totalHeight = element.scrollHeight;
+    
+        if (scrollPosition === totalHeight) {
+            getColabs(2)
+          console.log("Final de scroll alcançado!");
+    
+          // carregue mais itens de colaboradores
+          setCurrentPage(currentPage + 1);
+          getAppColab(userToken, currentPage + 1, '').then((response) => {
+            if (response) {
+              const newColabItems = response.data.items;
+              if (Array.isArray(newColabItems)) {
+                setColabItem([...colabItem, ...newColabItems]);
+              }
+            }
+          });
+          console.log('aqui colabitem', colabItem)
+        }
+      };
+
 
     return (
         <div>
@@ -170,11 +211,19 @@ export default function InventoryForm({
                     <Input placeholder="Enter item name" />
                 </Form.Item>
                 <Form.Item
+                    label="Usuário"
+                    name="usuario"
+                    rules={[{ required: true, message: "Please input item name" }]}
+                >
+                    <Input placeholder="Enter item name usuario" />
+                </Form.Item>
+                <Form.Item
                     label="Colaborador"
                     rules={[{ required: true, message: "Please select category" }]}
                     name="colaborador_id"
                 >
-                    <Select placeholder="Selecione colaborador" allowClear>
+                    <Select placeholder="Selecione colaborador" allowClear className="colaborador" onPopupScroll={handleScroll}
+      getPopupContainer={(triggerNode) => triggerNode.parentNode}>
                         {colabItem.map((item: any, i: number) => (
                             <Option key={i} value={item.id}>
                                 {item.name}

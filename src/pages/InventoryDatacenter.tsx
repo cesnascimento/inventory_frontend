@@ -165,6 +165,7 @@ export default function Inventory({
         ip: item.ip,
         descricao: item.descricao,
         hostname: item.hostname,
+        usuario: item.usuario,
         colaborador: item.colaborador?.name,
         sistema_operacional: item.sistema_operacional,
         nf_so: item.nf_so,
@@ -232,7 +233,7 @@ export default function Inventory({
 
   return (
     <>
-      <div className="cardMain">
+      <div className="cardMain" style={{ width: "calc(100vw - 250px)" }}>
         <div className="headerContent">
           <h3>Gestão de Inventário DataCenter</h3>
           <div className="flex align-center">
