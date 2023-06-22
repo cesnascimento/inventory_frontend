@@ -32,7 +32,7 @@ export default function InventoryForm({
     const [form] = Form.useForm();
     const imageUpload: any = useRef();
     const [groupItem, setGroupItem] = useState([]);
-    const [colabItem, setColabItem] = useState([]);
+    const [colabItem, setColabItem] = useState<any[]>([]);
 
     const onFinish = async (values: any) => {
         setIsLoading(true);
@@ -182,7 +182,9 @@ export default function InventoryForm({
                     name="colaborador_id"
                 >
                     <Select placeholder="Selecione colaborador" allowClear>
-                        {colabItem.map((item: any, i: number) => (
+                        {colabItem
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((item: any, i: number) => (
                             <Option key={i} value={item.id}>
                                 {item.name}
                             </Option>

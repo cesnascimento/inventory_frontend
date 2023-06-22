@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { CameraOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, } from "antd";
 import Axios from "axios";
@@ -34,19 +34,28 @@ export default function InventoryForm({
     const [groupItem, setGroupItem] = useState([]);
     const [colabItem, setColabItem] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [searchText, setSearchText] = useState("");
+
+    const handleSearch = (value: SetStateAction<string>) => {
+        setSearchText(value);
+    };
+
+    const handleFilterOption = (input: string, option: { children: string; }) => {
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    };
 
     const onFinish = async (values: any) => {
         setIsLoading(true);
         let formData;
 
         if (selectedImage) {
-          formData = new FormData();
-          for (let key in values) {
-            formData.append(key, values[key]);
-          }
-          formData.append("photo", selectedImage);
+            formData = new FormData();
+            for (let key in values) {
+                formData.append(key, values[key]);
+            }
+            formData.append("photo", selectedImage);
         } else {
-          formData = values;
+            formData = values;
         }
         let url = INVENTORY_URL
         if (activeItem) {
@@ -75,7 +84,7 @@ export default function InventoryForm({
         }
     };
 
-    const getColabs = async (page?:number) => {
+    const getColabs = async (page?: number) => {
         const res = await getAppColab(userToken, page);
         if (res) {
             setColabItem(res.data.results);
@@ -89,7 +98,7 @@ export default function InventoryForm({
             getGroups();
         }
     }, []);
-    
+
     useEffect(() => {
         if (colaborador) {
             setColabItem(colaborador);
@@ -140,27 +149,27 @@ export default function InventoryForm({
 
     const handleScroll = (event: any) => {
         const element = event.target;
-    
+
         const scrollPosition = element.scrollTop + element.clientHeight;
         const totalHeight = element.scrollHeight;
-    
+
         if (scrollPosition === totalHeight) {
             getColabs(2)
-          console.log("Final de scroll alcançado!");
-    
-          // carregue mais itens de colaboradores
-          setCurrentPage(currentPage + 1);
-          getAppColab(userToken, currentPage + 1, '').then((response) => {
-            if (response) {
-              const newColabItems = response.data.items;
-              if (Array.isArray(newColabItems)) {
-                setColabItem([...colabItem, ...newColabItems]);
-              }
-            }
-          });
-          console.log('aqui colabitem', colabItem)
+            console.log("Final de scroll alcançado!");
+
+            // carregue mais itens de colaboradores
+            setCurrentPage(currentPage + 1);
+            getAppColab(userToken, currentPage + 1, '').then((response) => {
+                if (response) {
+                    const newColabItems = response.data.items;
+                    if (Array.isArray(newColabItems)) {
+                        setColabItem([...colabItem, ...newColabItems]);
+                    }
+                }
+            });
+            console.log('aqui colabitem', colabItem)
         }
-      };
+    };
 
 
     return (
@@ -222,13 +231,20 @@ export default function InventoryForm({
                     rules={[{ required: true, message: "Please select category" }]}
                     name="colaborador_id"
                 >
-                    <Select placeholder="Selecione colaborador" allowClear className="colaborador" onPopupScroll={handleScroll}
-      getPopupContainer={(triggerNode) => triggerNode.parentNode}>
-                        {colabItem.map((item: any, i: number) => (
-                            <Option key={i} value={item.id}>
-                                {item.name}
-                            </Option>
-                        ))}
+                    <Select
+                        placeholder="Selecione colaborador"
+                        allowClear
+                        className="colaborador"
+                        onPopupScroll={handleScroll}
+                        getPopupContainer={(triggerNode) => triggerNode.parentNode}
+                    >
+                        {colabItem
+                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena o array por nome
+                            .map((item: any, i: number) => (
+                                <Option key={i} value={item.id}>
+                                    {item.name}
+                                </Option>
+                            ))}
                     </Select>
                 </Form.Item>
                 <Form.Item
