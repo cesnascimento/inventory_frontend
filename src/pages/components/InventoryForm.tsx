@@ -64,7 +64,8 @@ export default function InventoryForm({
         const result = await Axios[activeItem ? "patch" : "post"](url, formData, {
             headers: { Authorization: userToken },
         }).catch((e) =>
-            openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+            console.log(e)
+            /* openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) */
         );
         if (result) {
             openNotificationWithIcon(
