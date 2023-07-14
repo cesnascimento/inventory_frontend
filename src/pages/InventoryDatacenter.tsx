@@ -155,7 +155,8 @@ export default function Inventory({
       INVENTORY_DATACENTER_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
+      console.log(e)
+      /* openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))  */
     );
     if (res) {
       setTotalCount(res.data.count);
@@ -266,7 +267,6 @@ export default function Inventory({
           loading={fetching}
           pagination={{
             total: totalCount,
-            pageSize: 20,
             onChange: (page) => setCurrentPage(page),
           }}
         />

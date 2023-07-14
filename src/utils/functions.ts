@@ -53,7 +53,8 @@ export const getAppGroups = (
       headers: { Authorization: userToken },
     }
   ).catch((e) =>
-    openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+    console.log(e)
+    /* openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) */
   );
 };
 
@@ -68,7 +69,8 @@ export const getAppColab = (
       headers: { Authorization: userToken },
     }
   ).catch((e) =>
-    openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+    console.log(e)
+    /* openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) */
   );
 };
 
@@ -83,7 +85,8 @@ export const getAppShops = (
       headers: { Authorization: userToken },
     }
   ).catch((e) =>
-    openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+    console.log(e)
+    /* openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) */
   );
 };
 

@@ -259,7 +259,6 @@ export default function Inventory({
           loading={fetching}
           pagination={{
             total: totalCount,
-            pageSize: 20,
             onChange: (page) => setCurrentPage(page),
           }}
         />
