@@ -17,6 +17,7 @@ export default function DashboardContentSumary() {
             e => openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
         )
         if (res) {
+            console.log('AQUI É O RES', res)
             setSummaryData(res.data)
             setFetching(false)
         }
@@ -29,28 +30,28 @@ export default function DashboardContentSumary() {
     return (
         <div className="dashboardContentSumary">
             <DashboardSummaryCard
-                title="Total de item"
+                title="Total de Desktop"
                 count={summaryData?.total_inventory}
                 loading={fetching}
                 icon={<DatabaseOutlined style={{ fontSize: "30px", color: "#4451C2" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total Grupos/Categoria"
+                title="Total de Notebook"
                 count={summaryData?.total_group}
                 loading={fetching}
                 icon={<ClusterOutlined style={{ fontSize: "30px", color: "#4495C2" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total de Lojas"
+                title="Mobiles"
                 count={summaryData?.total_shop}
                 loading={fetching}
                 icon={<ShopOutlined style={{ fontSize: "30px", color: "#FA9696" }} />}
             />
 
             <DashboardSummaryCard
-                title="Total Usuários"
+                title="DataCenter"
                 count={summaryData?.total_users}
                 loading={fetching}
                 icon={<UserOutlined style={{ fontSize: "30px", color: "#02AC32" }} />}

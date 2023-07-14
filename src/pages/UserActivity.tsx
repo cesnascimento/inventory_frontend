@@ -75,7 +75,6 @@ export default function UserActivity() {
           loading={fetching}
           pagination={{
             total: totalCount,
-            pageSize: 20,
             onChange: (page) => setCurrentPage(page),
           }}
         />
