@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.74.51.28:8000/";
+const BASE_URL = "http://127.0.0.1:8000/";
 
 export const ME_URL = BASE_URL + "user/me";
 export const LOGIN_URL = BASE_URL + "user/login";
@@ -17,6 +17,6 @@ export const INVENTORY_DATACENTER_URL = BASE_URL + "app/inventory-datacenter";
 export const COLABORATE_URL = BASE_URL + "app/colaborate";
 export const INVENTORY_CSV_URL = BASE_URL + "app/inventory-csv";
 export const SUMMARY_URL = BASE_URL + "app/summary";
-export const PURCHASE_SUMMARY_URL = BASE_URL + "app/purchase-summary";
-export const SALE_BY_SHOP_URL = BASE_URL + "app/sales-by-shop";
+/* export const PURCHASE_SUMMARY_URL = BASE_URL + "app/purchase-summary"; */
+/* export const SALE_BY_SHOP_URL = BASE_URL + "app/sales-by-shop"; */
 export const TOP_SELLING_URL = BASE_URL + "app/top-selling";

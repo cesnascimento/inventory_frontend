@@ -81,9 +81,9 @@ export default function Group() {
         const res = await getAppGroups(userToken, currentPage, search)
 
         if (res) {
+            console.log('AQUI É O RES DO GROUP', res.data.results, res.data.count)
             setGroupData(res.data.results)
             setTotalCount(res.data.count)
-            console.log('aki ->>  ',res.data.results.map((item:any) => item.name))
             setGroups(res.data.results.map((item: any, i: number) => ({
                 key: i,
                 id: item.id,
@@ -124,6 +124,8 @@ export default function Group() {
         setIsModalVisible(false)
         getGroups()
     }
+
+    console.log('AQUI É O GROUPS 2', groups)
 
     return (
         <>

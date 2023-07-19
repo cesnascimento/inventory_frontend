@@ -122,6 +122,16 @@ export default function InventoryForm({
         }
     }, [activeItem, groupItem, colabItem])
 
+    const [searchValue, setSearchValue] = useState('');
+
+    const handleSearch = (value: string) => {
+        setSearchValue(value);
+    };
+
+    const filteredOptions = colabItem.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
     return (
         <div>
             <input
@@ -168,13 +178,19 @@ export default function InventoryForm({
                     rules={[{ required: true, message: "Please select category" }]}
                     name="colaborador_id"
                 >
-                    <Select placeholder="Selecione colaborador" allowClear>
-                        {colabItem
+                    <Select
+                    placeholder="Selecione colaborador"
+                    allowClear
+                    showSearch
+                    filterOption={false}
+                    onSearch={handleSearch}
+                    >
+                    {filteredOptions
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map((item: any, i: number) => (
-                            <Option key={i} value={item.id}>
-                                {item.name}
-                            </Option>
+                        <Option key={i} value={item.id}>
+                            {item.name}
+                        </Option>
                         ))}
                     </Select>
                 </Form.Item>

@@ -17,7 +17,6 @@ export default function DashboardContentSumary() {
             e => openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
         )
         if (res) {
-            console.log('AQUI É O RES', res)
             setSummaryData(res.data)
             setFetching(false)
         }

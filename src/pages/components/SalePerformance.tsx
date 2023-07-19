@@ -4,11 +4,12 @@ import { useState } from "react";
 import { store } from "../../store";
 import DateSelector from "./DateSelector";
 import Axios from "axios";
-import { SALE_BY_SHOP_URL } from "../../utils/myPaths";
+/* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
 import {
   errorHandler,
   NotificationTypes,
   openNotificationWithIcon,
+  getAppGroups
 } from "../../utils/functions";
 import { useEffect } from "react";
 import Chart from "react-google-charts";
@@ -18,11 +19,38 @@ import moment from "moment";
 export default function SalePerformance() {
   const [saleChart, setSaleChart]: any = useState([]);
   const [fetching, setFetching] = useState(true);
+  const groups:any = ['Equipamentos']
+  const lojas:any = ['Loja']
+  const [currentPage, setCurrentPage] = useState(1)
+  const [search, setSearch] = useState("")
   const {
     state: { userToken },
   } = useContext(store);
 
-  const getTopSellingData = async () => {
+  useEffect(() => {
+    getGroups()
+  }, [currentPage, search])
+
+  const getGroups = async () => {
+
+    const res = await getAppGroups(userToken, currentPage, search)
+
+    if (res){
+      console.log('TALVEZ O GRAFICO', res.data.results)
+      res.data.results.forEach((item: any, i: number) => (
+        lojas.push(item.name),
+        groups.push(item.total_items)
+      ))
+    }
+
+  }
+
+  useEffect(() => {
+    console.log('AQUI É O GROUPS A', groups)
+    console.log('aqui é groups b', [[lojas],[groups]])
+  }, [lojas, groups])
+
+/*   const getTopSellingData = async () => {
     const res = await Axios.get(SALE_BY_SHOP_URL + `?monthly=true`, {
       headers: { Authorization: userToken },
     }).catch((e) =>
@@ -32,11 +60,11 @@ export default function SalePerformance() {
       setSaleChart(res.data);
       setFetching(false);
     }
-  };
+  }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     getTopSellingData();
-  }, []);
+  }, []); */
 
   const getMonthlyData = () => {
     const months: any = [];
@@ -64,17 +92,14 @@ export default function SalePerformance() {
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Item por loja</h3>
+          <h3>Equipamentos por loja</h3>
           <DateSelector picker="month" />
         </div>
         <Chart
           className="chartSvg"
           chartType="Bar"
           loader={fetching ? <Loader /> : <></>}
-          data={[
-            ["Month", ...saleChart.map((item: any) => item.name)],
-            ...getMonthlyData(),
-          ]}
+          data={[lojas,groups]}
         />
       </div>
     </div>

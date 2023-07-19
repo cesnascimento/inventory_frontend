@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { store } from '../../store'
-import { PURCHASE_SUMMARY_URL } from '../../utils/myPaths'
+/* import { PURCHASE_SUMMARY_URL } from '../../utils/myPaths' */
 import DateSelector from './DateSelector'
 import Axios from "axios"
 import {
@@ -18,7 +18,7 @@ export default function PurchaseSummary() {
     state: { userToken },
   } = useContext(store);
 
-  const getSummary = async () => {
+  /* const getSummary = async () => {
     const res = await Axios.get(PURCHASE_SUMMARY_URL, {
       headers: { Authorization: userToken },
     }).catch((e) =>
@@ -29,10 +29,10 @@ export default function PurchaseSummary() {
       setFetching(false);
     }
   };
-
-  useEffect(() => {
+ */
+  /* useEffect(() => {
     getSummary();
-  }, []);
+  }, []); */
   return (
     <div className="cardMain">
       <div className="headerContent">

@@ -173,6 +173,16 @@ export default function InventoryForm({
     };
 
 
+    const [searchValue, setSearchValue] = useState('');
+
+    const handleSearchChange = (value: string) => {
+        setSearchValue(value);
+    };
+
+    const filteredOptions = colabItem.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
     return (
         <div>
             <input
@@ -233,19 +243,21 @@ export default function InventoryForm({
                     name="colaborador_id"
                 >
                     <Select
-                        placeholder="Selecione colaborador"
-                        allowClear
-                        className="colaborador"
-                        onPopupScroll={handleScroll}
-                        getPopupContainer={(triggerNode) => triggerNode.parentNode}
+                    placeholder="Selecione colaborador"
+                    allowClear
+                    className="colaborador"
+                    onPopupScroll={handleScroll}
+                    getPopupContainer={(triggerNode) => triggerNode.parentNode}
+                    filterOption={false}
+                    showSearch
+                    onSearch={handleSearchChange}
                     >
-                        {colabItem
-                            .sort((a, b) => a.name.localeCompare(b.name)) // Ordena o array por nome
-                            .map((item: any, i: number) => (
-                                <Option key={i} value={item.id}>
-                                    {item.name}
-                                </Option>
-                            ))}
+                    {filteredOptions.sort((a, b) => a.name.localeCompare(b.name))
+                        .map((item: any, i: number) => (
+                        <Option key={i} value={item.id}>
+                            {item.name}
+                        </Option>
+                    ))}
                     </Select>
                 </Form.Item>
                 <Form.Item

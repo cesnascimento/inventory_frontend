@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import { store } from "../../store";
 import Axios from "axios";
-import { SALE_BY_SHOP_URL } from "../../utils/myPaths";
+/* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
 import {
   errorHandler,
   NotificationTypes,
@@ -12,7 +12,7 @@ import {
 import { useEffect } from "react";
 import Chart from "react-google-charts";
 import Loader from "./Loader";
-import PurchaseSummary from "./PurchaseSummary";
+/* import PurchaseSummary from "./PurchaseSummary"; */
 
 export default function SalePieChart() {
   const [saleChart, setSaleChart]: any = useState([]);
@@ -21,7 +21,7 @@ export default function SalePieChart() {
     state: { userToken },
   } = useContext(store);
 
-  const getTopSellingData = async () => {
+  /* const getTopSellingData = async () => {
     const res = await Axios.get(SALE_BY_SHOP_URL, {
       headers: { Authorization: userToken },
     }).catch((e) =>
@@ -31,12 +31,12 @@ export default function SalePieChart() {
       setSaleChart(res.data);
       setFetching(false);
     }
-  };
+  }; */
 
-  useEffect(() => {
+ /*  useEffect(() => {
     getTopSellingData();
   }, []);
-
+ */
   const allZero = (() => {
     let allZero = true;
     for (const item of saleChart) {
@@ -51,7 +51,7 @@ export default function SalePieChart() {
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Item por loja</h3>
+          <h3>Item por loja 1</h3>
         </div>
         <Chart
           width={"500px"}
@@ -68,7 +68,7 @@ export default function SalePieChart() {
         />
       </div>
       <br />
-      <PurchaseSummary />
+      {/* <PurchaseSummary /> */}
     </div>
   );
 }
