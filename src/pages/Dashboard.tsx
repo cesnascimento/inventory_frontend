@@ -12,7 +12,7 @@ export default function Dashboard() {
         <br />
         <div className="gridSection">
           {/* <TopSellingItems /> */}
-          <SalePieChart />
+          {/* <SalePieChart /> */}
         </div>
         <br />
         <SalePerformance />
