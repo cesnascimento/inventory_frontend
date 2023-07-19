@@ -12,81 +12,59 @@ import {
   getAppGroups
 } from "../../utils/functions";
 import { useEffect } from "react";
-import Chart from "react-google-charts";
+/* import Chart from "react-google-charts"; */
 import Loader from "./Loader";
 import moment from "moment";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+interface GroupData {
+  name: string;
+  equip: number;
+}
 
 export default function SalePerformance() {
   const [saleChart, setSaleChart]: any = useState([]);
   const [fetching, setFetching] = useState(true);
-  const groups:any = ['Equipamentos']
-  const lojas:any = ['Loja']
+  /* const groups:any = ['Equipamentos']
+  const lojas:any = ['Loja'] */
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
+  const [lojas, setLojas] = useState<GroupData[]>([]);
+  const [groups, setGroups] = useState<GroupData[]>([]);
   const {
     state: { userToken },
   } = useContext(store);
+  const [newData, setNewData] = useState<GroupData[]>([]);
 
   useEffect(() => {
     getGroups()
   }, [currentPage, search])
 
   const getGroups = async () => {
+    const res = await getAppGroups(userToken, currentPage, search);
 
-    const res = await getAppGroups(userToken, currentPage, search)
+    if (res) {
+      const newData: GroupData[] = res.data.results.map((item: any) => ({
+        name: item.name,
+        equip: item.total_items,
+      }));
 
-    if (res){
-      console.log('TALVEZ O GRAFICO', res.data.results)
-      res.data.results.forEach((item: any, i: number) => (
-        lojas.push(item.name),
-        groups.push(item.total_items)
-      ))
+      setLojas((prevLojas) => [...prevLojas, ...newData]);
+      setGroups((prevGroups) => [...prevGroups, ...newData]);
+      setNewData(newData); // Atualizar a nova variável de estado
     }
-
-  }
+  };
+  
 
   useEffect(() => {
     console.log('AQUI É O GROUPS A', groups)
     console.log('aqui é groups b', [[lojas],[groups]])
   }, [lojas, groups])
 
-/*   const getTopSellingData = async () => {
-    const res = await Axios.get(SALE_BY_SHOP_URL + `?monthly=true`, {
-      headers: { Authorization: userToken },
-    }).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
-    );
-    if (res) {
-      setSaleChart(res.data);
-      setFetching(false);
-    }
-  }; */
 
-  /* useEffect(() => {
-    getTopSellingData();
-  }, []); */
+  const data: GroupData[] = [...lojas, ...groups];
 
-  const getMonthlyData = () => {
-    const months: any = [];
-    for (const item of saleChart) {
-      if (!months.includes(item.month)) {
-        months.push(item.month);
-      }
-    }
-    const totalData = [];
-    for (const month of months) {
-      const individualData = [moment(new Date(month)).format("MMM")];
-      for (const item of saleChart) {
-        if (item.month === month) {
-          individualData.push(item.amount_total || "0");
-        } else {
-          individualData.push("0");
-        }
-      }
-      totalData.push(individualData);
-    }
-    return totalData;
-  };
+  console.log('AQUI É O NEWDATA',newData)
 
   return (
     <div>
@@ -95,12 +73,20 @@ export default function SalePerformance() {
           <h3>Equipamentos por loja</h3>
           <DateSelector picker="month" />
         </div>
-        <Chart
-          className="chartSvg"
-          chartType="Bar"
-          loader={fetching ? <Loader /> : <></>}
-          data={[lojas,groups]}
-        />
+        <BarChart
+        className="BarChartSvg"
+        width={800}
+        height={400}
+        data={newData}
+        >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="equip" fill="#8884d8" />
+      </BarChart>
+
       </div>
     </div>
   );
