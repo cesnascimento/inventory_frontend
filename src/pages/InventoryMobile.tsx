@@ -151,7 +151,7 @@ export default function Inventory({
       INVENTORY_MOBILE_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }
     ).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e)) 
+      console.log(e) 
     );
     if (res) {
       setTotalCount(res.data.count);
