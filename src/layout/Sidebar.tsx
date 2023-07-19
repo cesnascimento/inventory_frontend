@@ -32,14 +32,12 @@ export default function Sidebar() {
 
   return (
     <div className="sidebarMain">
-      {isSuperAdmin && (
-        <MenuItemCustom
-          title="Dashboard"
-          icon={<AppstoreOutlined />}
-          linkTo="/"
-          isActive={["", "/"].includes(activePage)}
-        />
-      )}
+      <MenuItemCustom
+        title="Dashboard"
+        icon={<AppstoreOutlined />}
+        linkTo="/"
+        isActive={["", "/"].includes(activePage)}
+      />
       <MenuItemCustom
         title="Inventário Desktop"
         icon={<DesktopOutlined />}
