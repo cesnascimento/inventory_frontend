@@ -17,7 +17,7 @@ import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Local",
+    title: "Grupo",
     dataIndex: "local",
   },
   {
@@ -33,7 +33,7 @@ const columns = [
     dataIndex: "usuario",
   },
   {
-    title: "Colaborador",
+    title: "Unidade",
     dataIndex: "colaborador",
   },
   {
