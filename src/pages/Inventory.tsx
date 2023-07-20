@@ -282,7 +282,7 @@ export default function Inventory({
         />
       </div>
       <Modal
-        title={isSingleAdd ? "Add item" : "Import your items"}
+        title={isSingleAdd ? "Add item" : "Exportar items"}
         visible={isModalVisible}
         onCancel={closeModal}
         footer={false}

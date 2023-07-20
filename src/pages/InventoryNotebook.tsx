@@ -264,7 +264,7 @@ export default function Inventory({
                 </Button>
                 <div className="spacer-10" />
                 <Button type="primary" onClick={() => showModal(false)}>
-                  Add Item (Excel)
+                  Exportar (CSV)
                 </Button>
               </>
             )}
@@ -281,7 +281,7 @@ export default function Inventory({
         />
       </div>
       <Modal
-        title={isSingleAdd ? "Add item Notebook" : "Import your items"}
+        title={isSingleAdd ? "Add item Notebook" : "Exportar items Notebook"}
         visible={isModalVisible}
         onCancel={closeModal}
         footer={false}

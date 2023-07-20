@@ -75,16 +75,16 @@ export default function SalePerformance() {
         </div>
         <BarChart
         className="BarChartSvg"
-        width={800}
-        height={400}
+        width={900}
+        height={500}
         data={newData}
         >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" tick={{ fontSize: 12 }} height={100} />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="equip" fill="#8884d8" />
+        <Bar dataKey="equip" fill="#8884d8" name="Equipamentos x Lojas" />
       </BarChart>
 
       </div>

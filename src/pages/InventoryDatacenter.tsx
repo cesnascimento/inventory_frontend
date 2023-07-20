@@ -255,7 +255,7 @@ export default function Inventory({
                 </Button>
                 <div className="spacer-10" />
                 <Button type="primary" onClick={() => showModal(false)}>
-                  Add Item (Excel)
+                  Exportar (CSV)
                 </Button>
               </>
             )}
