@@ -68,10 +68,10 @@ const columns = [
     title: "Adicionado em",
     dataIndex: "addedOn",
   },
-  /* {
-    title: "Added by",
-    dataIndex: "addedBy",
-  }, */
+  {
+    title: "Depreciado",
+    dataIndex: "",
+  },
   {
     title: "Ações",
     dataIndex: "actions",

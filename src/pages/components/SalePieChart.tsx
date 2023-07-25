@@ -1,6 +1,4 @@
-import React from 'react'
-import { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 import { store } from "../../store";
 import Axios from "axios";
 /* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
@@ -8,64 +6,135 @@ import {
   errorHandler,
   NotificationTypes,
   openNotificationWithIcon,
+  getAppGroups
 } from "../../utils/functions";
 import { useEffect } from "react";
 import Chart from "react-google-charts";
 import Loader from "./Loader";
+import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+
 /* import PurchaseSummary from "./PurchaseSummary"; */
+
+interface GroupData {
+  name: string;
+  equip: number;
+}
 
 export default function SalePieChart() {
   const [saleChart, setSaleChart]: any = useState([]);
+  const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
+  const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [search, setSearch] = useState("")
   const [fetching, setFetching] = useState(true);
   const {
     state: { userToken },
   } = useContext(store);
 
-  /* const getTopSellingData = async () => {
-    const res = await Axios.get(SALE_BY_SHOP_URL, {
-      headers: { Authorization: userToken },
-    }).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
-    );
-    if (res) {
-      setSaleChart(res.data);
-      setFetching(false);
-    }
-  }; */
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
- /*  useEffect(() => {
-    getTopSellingData();
-  }, []);
- */
-  const allZero = (() => {
-    let allZero = true;
-    for (const item of saleChart) {
-      if (item.amount_total) {
-        allZero = false;
-        break;
-      }
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    value,
+    index
+  }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${value}%`}
+      </text>
+    );
+  };
+
+  const getGroups = async () => {
+    const res = await getAppGroups(userToken, currentPage, search);
+
+    if (res) {
+      const dataDesktop: GroupData[] = res.data.results.map((item: any) => ({
+        name: item.name,
+        value: Number(item.desktop_items),
+      }));
+      const dataNotebook: GroupData[] = res.data.results.map((item: any) => ({
+        name: item.name,
+        value: Number(item.notebook_items)
+      }))
+
+
+
+      setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
+      setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
+
+      console.log('aqui res do dashboard2', dataDesktop)
     }
-    return allZero;
-  })();
+  };
+
+  useEffect(() => {
+    getGroups()
+  }, [currentPage, search])
+
+
   return (
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Item por loja 1</h3>
+          <h3>Gráfico dos Inventários</h3>
         </div>
-        <Chart
-          width={"500px"}
-          height={"300px"}
-          chartType="PieChart"
-          loader={fetching ? <Loader /> : <></>}
-          data={[
-            ["Task", "Hours per Day"],
-            ...saleChart.map((item: any) => [
-              item.name,
-              allZero ? 1 : item.amount_total || 0,
-            ]),
-          ]}
-        />
+        <PieChart width={800} height={400}>
+          <Pie
+            data={dataDesktop}
+            cx="35%"
+            cy="30%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {dataDesktop.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <text x="30%" y="55%" textAnchor="middle" fontSize={12} fill="#010101">
+            Desktop x Loja
+          </text>
+          <Pie
+            data={dataNotebook}
+            cx="75%"
+            cy="30%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {dataDesktop.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <text x="70%" y="55%" textAnchor="middle" fontSize={12} fill="#010101">
+            Notebook x Loja
+          </text>
+          <Legend
+            align="right"
+            layout="vertical"
+            verticalAlign="middle"
+            wrapperStyle={{ paddingBottom: '10px' }}
+          />
+        </PieChart>
       </div>
       <br />
       {/* <PurchaseSummary /> */}

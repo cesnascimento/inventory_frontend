@@ -25,12 +25,8 @@ interface GroupData {
 export default function SalePerformance() {
   const [saleChart, setSaleChart]: any = useState([]);
   const [fetching, setFetching] = useState(true);
-  /* const groups:any = ['Equipamentos']
-  const lojas:any = ['Loja'] */
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
-  const [lojas, setLojas] = useState<GroupData[]>([]);
-  const [groups, setGroups] = useState<GroupData[]>([]);
   const {
     state: { userToken },
   } = useContext(store);
@@ -49,29 +45,18 @@ export default function SalePerformance() {
         equip: item.total_items,
       }));
 
-      setLojas((prevLojas) => [...prevLojas, ...newData]);
-      setGroups((prevGroups) => [...prevGroups, ...newData]);
       setNewData(newData); // Atualizar a nova variável de estado
+
+      console.log('aqui res do dashboard2', newData)
     }
   };
-  
 
-  useEffect(() => {
-    console.log('AQUI É O GROUPS A', groups)
-    console.log('aqui é groups b', [[lojas],[groups]])
-  }, [lojas, groups])
-
-
-  const data: GroupData[] = [...lojas, ...groups];
-
-  console.log('AQUI É O NEWDATA',newData)
 
   return (
     <div>
       <div className="cardMain">
         <div className="headerContent">
           <h3>Equipamentos por loja</h3>
-          <DateSelector picker="month" />
         </div>
         <BarChart
         className="BarChartSvg"
