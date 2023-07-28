@@ -168,7 +168,7 @@ export default function Inventory({
     );
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aquinotebook ->>>', res.data.results.map((item:any, i: number) => console.log(item)))
+      console.log('aquinotebook ->>>', res.data.results.map((item:any, i: number) => item))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         local: item.local?.name,

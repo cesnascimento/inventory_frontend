@@ -11,7 +11,7 @@ export default function Dashboard() {
         <DashboardContentSumary />
         <br />
         <div className="gridSection">
-          {/* <TopSellingItems /> */}
+          <TopSellingItems />
           <SalePieChart />
         </div>
         <br />

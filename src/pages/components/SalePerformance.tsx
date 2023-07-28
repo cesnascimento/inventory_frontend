@@ -71,23 +71,32 @@ export default function SalePerformance() {
         <div className="headerContent">
           <h3>Equipamentos por loja</h3>
         </div>
-        <BarChart
-          className="BarChartSvg"
-          width={900}
-          height={500}
-          data={newData}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "50vh"
+          }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" tick={{ fontSize: 12 }} height={100} />
-          <YAxis />
-          <Tooltip />
-          {/* <Bar dataKey="equip" fill="#8884d8" /> */}
-          <Bar dataKey="equip" name="Equipamentos:">
-            {newData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Bar>
-        </BarChart>
+          <BarChart
+            className="BarChartSvg"
+            width={600}
+            height={400}
+            data={newData}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" tick={{ fontSize: 12 }} height={70} />
+            <YAxis />
+            <Tooltip />
+            {/* <Bar dataKey="equip" fill="#8884d8" /> */}
+            <Bar dataKey="equip" name="Equipamentos:">
+              {newData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </div>
 
       </div>
     </div>

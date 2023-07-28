@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { store } from "../../store";
 import Axios from "axios";
 /* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
@@ -8,90 +8,31 @@ import {
   openNotificationWithIcon,
   getAppGroups
 } from "../../utils/functions";
-import { useEffect } from "react";
-import Chart from "react-google-charts";
 import Loader from "./Loader";
 import { PieChart, Pie, Sector, Cell, Label } from "recharts";
+import { Space, Typography } from 'antd';
+import { INVENTORY_MOBILE_URL } from "../../utils/myPaths";
 
 
-/* import PurchaseSummary from "./PurchaseSummary"; */
 
 interface GroupData {
   name: string;
   equip: number;
 }
 
-const renderActiveShape = (props: any) => {
-  const RADIAN = Math.PI / 180;
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-    payload,
-    value
-  } = props;
-  const sin = Math.sin(-RADIAN * midAngle);
-  const cos = Math.cos(-RADIAN * midAngle);
-  const sx = cx + (outerRadius + 10) * cos;
-  const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
-  const my = cy + (outerRadius + 20) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 10;
-  const ey = my;
-  const textAnchor = cos >= 0 ? "start" : "end";
-
-  return (
-    <g>
-      <text x={cx} y={cy} dy={6} textAnchor="middle" fill={fill}>
-        {payload.name}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 5}
-        y={ey}
-        textAnchor={textAnchor}
-        fill="#333"
-        fontSize={12}
-      >{`QTD: ${value}`}</text>
-    </g>
-  );
-};
 
 export default function SalePieChart() {
   const [saleChart, setSaleChart]: any = useState([]);
-  const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
-  const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
   const [fetching, setFetching] = useState(true);
+  const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
+  const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
+  const [inventory, setInventory]: any = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+
+  const { Text } = Typography;
   const {
     state: { userToken },
   } = useContext(store);
@@ -163,118 +104,61 @@ export default function SalePieChart() {
       }))
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
+
+      console.log('aqui data desktop', dataDesktop)
     }
   };
+
+  const getInventory = async () => {
+    setFetching(true);
+
+    const res = await Axios.get(
+      INVENTORY_MOBILE_URL + `?page=${currentPage}&keyword=${search}`,
+      { headers: { Authorization: userToken } }
+    ).catch((e) =>
+      console.log(e) 
+    );
+    if (res) {
+      setTotalCount(res.data.count);
+      const data = res.data.results.map((item: any, i: number) => ({
+        marca: item.marca,
+        name: item.colaborador?.name
+      }))
+      const totalMobileFilter = data.filter((item:any) => item.name === 'colaborador teste');
+      setInventory([...totalMobileFilter]);
+
+      console.log('aqui o grafico do mobile', data)
+    }
+    
+    setFetching(false);
+  };
+
+  console.log('inventario',inventory)
+  
+  const sumValuesData = (data:any, propertyName:string) => data
+  .filter((item:any) => item.name === propertyName)
+  .reduce((sum:number, item:any) => sum + item.value, 0);
+  
 
   useEffect(() => {
     getGroups()
   }, [currentPage, search])
+  useEffect(() => {
+    getInventory()
+  }, [currentPage, search])
 
-
+  console.log('NOVO AQUI', inventory.filter((item:any) => item.name === 'colab teste'))
   return (
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Gráfico dos Inventários</h3>
+          <h3>Total Estoque</h3>
         </div>
-        <PieChart width={600} height={450}>
-          <Pie
-            activeIndex={activeIndex1}
-            activeShape={renderActiveShape}
-            data={dataDesktop}
-            cx={'25%'} // Centraliza horizontalmente
-            cy={'30%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
-            dataKey="value"
-            onMouseEnter={onPieEnter1}
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {dataNotebook.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <Label
-              content={() => (
-                <text x={'25%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
-                  Desktop
-                </text>
-              )}
-            />
-          </Pie>
-          <Pie
-            activeIndex={activeIndex2}
-            activeShape={renderActiveShape}
-            data={dataNotebook}
-            cx={'70%'} // Centraliza horizontalmente
-            cy={'30%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
-            dataKey="value"
-            onMouseEnter={onPieEnter2}
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {dataNotebook.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <Label
-              content={() => (
-                <text x={'70%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
-                  Notebook
-                </text>
-              )}
-            />
-          </Pie>
-          <Pie
-            activeIndex={activeIndex3}
-            activeShape={renderActiveShape}
-            data={dataNotebook}
-            cx={'25%'} // Centraliza horizontalmente
-            cy={'85%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
-            dataKey="value"
-            onMouseEnter={onPieEnter3}
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {dataNotebook.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <Label
-              content={() => (
-                <text x={'25%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
-                  Mobile
-                </text>
-              )}
-            />
-          </Pie>
-          <Pie
-            activeIndex={activeIndex4}
-            activeShape={renderActiveShape}
-            data={dataNotebook}
-            cx={'70%'} // Centraliza horizontalmente
-            cy={'85%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
-            dataKey="value"
-            onMouseEnter={onPieEnter4}
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {dataNotebook.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <Label
-              content={() => (
-                <text x={'70%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
-                  DataCenter
-                </text>
-              )}
-            />
-          </Pie>
-        </PieChart>
+        <Space direction="vertical">
+        <Text strong>Desktop: {sumValuesData(dataDesktop, 'teste')}</Text>
+        <Text strong>Notebook: {sumValuesData(dataNotebook, 'teste')}</Text>
+        <Text strong>Mobile: {inventory.length}</Text>
+        </Space>
       </div>
       <br />
       {/* <PurchaseSummary /> */}

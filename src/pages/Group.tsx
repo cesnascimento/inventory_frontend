@@ -125,8 +125,6 @@ export default function Group() {
         getGroups()
     }
 
-    console.log('AQUI É O GROUPS 2', groups)
-
     return (
         <>
             <div className="cardMain">
