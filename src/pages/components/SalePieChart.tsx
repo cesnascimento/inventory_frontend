@@ -11,7 +11,8 @@ import {
 import { useEffect } from "react";
 import Chart from "react-google-charts";
 import Loader from "./Loader";
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart, Pie, Sector, Cell, Label } from "recharts";
+
 
 /* import PurchaseSummary from "./PurchaseSummary"; */
 
@@ -19,6 +20,70 @@ interface GroupData {
   name: string;
   equip: number;
 }
+
+const renderActiveShape = (props: any) => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    value
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 20) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 10;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      <text x={cx} y={cy} dy={6} textAnchor="middle" fill={fill}>
+        {payload.name}
+      </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 5}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333"
+        fontSize={12}
+      >{`QTD: ${value}`}</text>
+    </g>
+  );
+};
 
 export default function SalePieChart() {
   const [saleChart, setSaleChart]: any = useState([]);
@@ -30,8 +95,32 @@ export default function SalePieChart() {
   const {
     state: { userToken },
   } = useContext(store);
+  const useActiveIndex = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const onPieEnter = useCallback((_, index) => {
+      setActiveIndex(index);
+    }, []);
+    return { activeIndex, onPieEnter };
+  };
+  const { activeIndex: activeIndex1, onPieEnter: onPieEnter1 } = useActiveIndex();
+  const { activeIndex: activeIndex2, onPieEnter: onPieEnter2 } = useActiveIndex();
+  const { activeIndex: activeIndex3, onPieEnter: onPieEnter3 } = useActiveIndex();
+  const { activeIndex: activeIndex4, onPieEnter: onPieEnter4 } = useActiveIndex();
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+  const COLORS = [
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#FF0000", // Vermelho
+    "#00FF00", // Verde
+    "#0000FF", // Azul
+    "#FFFF00", // Amarelo
+    "#FF00FF", // Magenta
+    "#00FFFF"  // Ciano
+  ];
+
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -55,7 +144,7 @@ export default function SalePieChart() {
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
-        {`${value}%`}
+        {`${value}`}
       </text>
     );
   };
@@ -72,13 +161,8 @@ export default function SalePieChart() {
         name: item.name,
         value: Number(item.notebook_items)
       }))
-
-
-
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
-
-      console.log('aqui res do dashboard2', dataDesktop)
     }
   };
 
@@ -93,47 +177,103 @@ export default function SalePieChart() {
         <div className="headerContent">
           <h3>Gráfico dos Inventários</h3>
         </div>
-        <PieChart width={800} height={400}>
+        <PieChart width={600} height={450}>
           <Pie
+            activeIndex={activeIndex1}
+            activeShape={renderActiveShape}
             data={dataDesktop}
-            cx="35%"
-            cy="30%"
+            cx={'25%'} // Centraliza horizontalmente
+            cy={'30%'} // Centraliza verticalmente
+            innerRadius={40}
+            outerRadius={60}
+            dataKey="value"
+            onMouseEnter={onPieEnter1}
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
           >
-            {dataDesktop.map((entry, index) => (
+            {dataNotebook.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
+            <Label
+              content={() => (
+                <text x={'25%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                  Desktop
+                </text>
+              )}
+            />
           </Pie>
-          <text x="30%" y="55%" textAnchor="middle" fontSize={12} fill="#010101">
-            Desktop x Loja
-          </text>
           <Pie
+            activeIndex={activeIndex2}
+            activeShape={renderActiveShape}
             data={dataNotebook}
-            cx="75%"
-            cy="30%"
+            cx={'70%'} // Centraliza horizontalmente
+            cy={'30%'} // Centraliza verticalmente
+            innerRadius={40}
+            outerRadius={60}
+            dataKey="value"
+            onMouseEnter={onPieEnter2}
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
           >
-            {dataDesktop.map((entry, index) => (
+            {dataNotebook.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
+            <Label
+              content={() => (
+                <text x={'70%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                  Notebook
+                </text>
+              )}
+            />
           </Pie>
-          <text x="70%" y="55%" textAnchor="middle" fontSize={12} fill="#010101">
-            Notebook x Loja
-          </text>
-          <Legend
-            align="right"
-            layout="vertical"
-            verticalAlign="middle"
-            wrapperStyle={{ paddingBottom: '10px' }}
-          />
+          <Pie
+            activeIndex={activeIndex3}
+            activeShape={renderActiveShape}
+            data={dataNotebook}
+            cx={'25%'} // Centraliza horizontalmente
+            cy={'85%'} // Centraliza verticalmente
+            innerRadius={40}
+            outerRadius={60}
+            dataKey="value"
+            onMouseEnter={onPieEnter3}
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
+            {dataNotebook.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+            <Label
+              content={() => (
+                <text x={'25%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                  Mobile
+                </text>
+              )}
+            />
+          </Pie>
+          <Pie
+            activeIndex={activeIndex4}
+            activeShape={renderActiveShape}
+            data={dataNotebook}
+            cx={'70%'} // Centraliza horizontalmente
+            cy={'85%'} // Centraliza verticalmente
+            innerRadius={40}
+            outerRadius={60}
+            dataKey="value"
+            onMouseEnter={onPieEnter4}
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
+            {dataNotebook.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+            <Label
+              content={() => (
+                <text x={'70%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                  DataCenter
+                </text>
+              )}
+            />
+          </Pie>
         </PieChart>
       </div>
       <br />

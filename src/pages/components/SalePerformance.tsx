@@ -15,7 +15,7 @@ import { useEffect } from "react";
 /* import Chart from "react-google-charts"; */
 import Loader from "./Loader";
 import moment from "moment";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
 
 interface GroupData {
   name: string;
@@ -31,6 +31,19 @@ export default function SalePerformance() {
     state: { userToken },
   } = useContext(store);
   const [newData, setNewData] = useState<GroupData[]>([]);
+
+  const COLORS = [
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#FF0000", // Vermelho
+    "#00FF00", // Verde
+    "#0000FF", // Azul
+    "#FFFF00", // Amarelo
+    "#FF00FF", // Magenta
+    "#00FFFF"  // Ciano
+  ];
 
   useEffect(() => {
     getGroups()
@@ -59,18 +72,22 @@ export default function SalePerformance() {
           <h3>Equipamentos por loja</h3>
         </div>
         <BarChart
-        className="BarChartSvg"
-        width={900}
-        height={500}
-        data={newData}
+          className="BarChartSvg"
+          width={900}
+          height={500}
+          data={newData}
         >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" tick={{ fontSize: 12 }} height={100} />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="equip" fill="#8884d8" name="Equipamentos x Lojas" />
-      </BarChart>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" tick={{ fontSize: 12 }} height={100} />
+          <YAxis />
+          <Tooltip />
+          {/* <Bar dataKey="equip" fill="#8884d8" /> */}
+          <Bar dataKey="equip" name="Equipamentos:">
+            {newData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Bar>
+        </BarChart>
 
       </div>
     </div>
