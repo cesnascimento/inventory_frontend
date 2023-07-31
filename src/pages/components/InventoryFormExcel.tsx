@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react'
 import { Button, Form, Input } from 'antd';
+import { NotificationTypes, errorHandler, openNotificationWithIcon } from '../../utils/functions';
+import { useContext, useState } from 'react'
+
 import Axios from "axios"
-import { store } from '../../store';
 import { INVENTORY_CSV_URL } from '../../utils/myPaths';
-import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions';
+import { store } from '../../store';
 
 export default function InventoryFormExcel({
     onAddComplete
@@ -36,7 +37,7 @@ export default function InventoryFormExcel({
     const exportInventoryCSV = async () => {
         try {
           const userToken = localStorage.getItem("userToken");
-          const res = await Axios.get('http://10.74.51.28:8000/app/export-csv/', {
+          const res = await Axios.get('http://127.0.0.1:8000/app/export-csv/', {
             headers: {
               Authorization: userToken,
             },

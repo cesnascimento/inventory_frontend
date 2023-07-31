@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DatabaseOutlined, ClusterOutlined, UserOutlined, ShopOutlined } from "@ant-design/icons"
+import { DesktopOutlined, LaptopOutlined, MobileOutlined, DatabaseOutlined } from "@ant-design/icons"
 import Axios from "axios"
 import { SUMMARY_URL } from "../../utils/myPaths"
 import { store } from '../../store'
 import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions'
 import Loader from './Loader'
+import { DashboardProvider, useDashboardContext } from '../../contexts/DashboardContext'
 
-export default function DashboardContentSumary() {
+function DashboardContentSumary() {
+
+    const {setFilteredDashboard} = useDashboardContext()
 
     const [summaryData, setSummaryData]: any = useState({})
     const [fetching, setFetching] = useState(true)
@@ -32,41 +35,47 @@ export default function DashboardContentSumary() {
                 title="Total de Desktop"
                 count={summaryData?.total_inventory}
                 loading={fetching}
-                icon={<DatabaseOutlined style={{ fontSize: "30px", color: "#4451C2" }} />}
+                icon={<DesktopOutlined style={{ fontSize: "30px", color: "#4451C2" }} />}
+                onClick={() => setFilteredDashboard('desktop')}
             />
 
             <DashboardSummaryCard
                 title="Total de Notebook"
                 count={summaryData?.total_group}
                 loading={fetching}
-                icon={<ClusterOutlined style={{ fontSize: "30px", color: "#4495C2" }} />}
+                icon={<LaptopOutlined style={{ fontSize: "30px", color: "#4495C2" }} />}
+                onClick={() => setFilteredDashboard('notebook')}
             />
 
             <DashboardSummaryCard
-                title="Mobiles"
+                title="Total de Mobiles"
                 count={summaryData?.total_shop}
                 loading={fetching}
-                icon={<ShopOutlined style={{ fontSize: "30px", color: "#FA9696" }} />}
+                icon={<MobileOutlined style={{ fontSize: "30px", color: "#FA9696" }} />}
+                onClick={() => setFilteredDashboard('mobile')}
             />
 
             <DashboardSummaryCard
-                title="DataCenter"
+                title="Total de DataCenter"
                 count={summaryData?.total_users}
                 loading={fetching}
-                icon={<UserOutlined style={{ fontSize: "30px", color: "#02AC32" }} />}
+                icon={<DatabaseOutlined style={{ fontSize: "30px", color: "#02AC32" }} />}
+                onClick={() => setFilteredDashboard('datacenter')}
             />
         </div>
     )
 }
 
-const DashboardSummaryCard = ({ icon, title, count, loading = false }: {
+const DashboardSummaryCard = ({ icon, title, count, onClick, loading = false }: {
     icon: React.ReactElement
     title: string,
     count: string,
+    onClick: () => void,
     loading?: boolean
+
 }) => {
     return (
-        <div className="cardMain dashboardBoardSummaryCard">
+        <div className="cardMain dashboardBoardSummaryCard" onClick={onClick}>
             <div className="content">
                 <div className="title">{title}</div>
                 {loading ? <Loader /> : <div className="count">{count}</div>}
@@ -77,3 +86,5 @@ const DashboardSummaryCard = ({ icon, title, count, loading = false }: {
         </div>
     )
 }
+
+export default DashboardContentSumary;

@@ -4,8 +4,10 @@ import DashboardContentSumary from "./components/DashboardContentSumary"
 import SalePerformance from './components/SalePerformance'
 import SalePieChart from './components/SalePieChart'
 import TopSellingItems from './components/TopSellingItems'
+import { DashboardProvider } from '../contexts/DashboardContext'
 
-export default function Dashboard() {
+
+function Dashboard() {
     return (
       <div>
         <DashboardContentSumary />
@@ -19,3 +21,11 @@ export default function Dashboard() {
       </div>
     );
 }
+
+export default () => {
+  return (
+    <DashboardProvider>
+      <Dashboard />
+    </DashboardProvider>
+  );
+};

@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
 import {
-  AppstoreOutlined,
   DatabaseOutlined,
-  NumberOutlined,
-  ClusterOutlined,
-  FileDoneOutlined,
-  UsergroupDeleteOutlined,
-  UsergroupAddOutlined,
   DesktopOutlined,
-  UserOutlined,
+  NumberOutlined,
   ShopOutlined,
+  UserOutlined,
+  UsergroupAddOutlined,
+  BarChartOutlined,
+  LaptopOutlined,
+  MobileOutlined,
+  ToolOutlined,
 } from "@ant-design/icons";
-import { useLocation } from "react-router";
+import React, { useEffect, useState } from 'react'
+
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { store } from "../store";
+import { useContext } from "react";
+import { useLocation } from "react-router";
 
 export default function Sidebar() {
   const [activePage, setActivePage] = useState<string>("");
@@ -34,7 +35,7 @@ export default function Sidebar() {
     <div className="sidebarMain">
       <MenuItemCustom
         title="Dashboard"
-        icon={<AppstoreOutlined />}
+        icon={<BarChartOutlined />}
         linkTo="/"
         isActive={["", "/"].includes(activePage)}
       />
@@ -46,19 +47,25 @@ export default function Sidebar() {
       />
       <MenuItemCustom
         title="Inventário Notebook"
-        icon={<DesktopOutlined />}
+        icon={<LaptopOutlined />}
         linkTo="/inventory-notebook"
         isActive={activePage === "/inventory-notebook"}
       />
       <MenuItemCustom
         title="Inventário Mobile"
-        icon={<DesktopOutlined />}
+        icon={<MobileOutlined />}
         linkTo="/inventory-mobile"
         isActive={activePage === "/inventory-mobile"}
       />
       <MenuItemCustom
         title="Inventário DataCenter"
-        icon={<DesktopOutlined />}
+        icon={<DatabaseOutlined />}
+        linkTo="/inventory-datacenter"
+        isActive={activePage === "/inventory-datacenter"}
+      />
+      <MenuItemCustom
+        title="Inventário Depreciado"
+        icon={<ToolOutlined />}
         linkTo="/inventory-datacenter"
         isActive={activePage === "/inventory-datacenter"}
       />

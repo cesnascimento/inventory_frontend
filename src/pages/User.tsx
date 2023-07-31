@@ -11,23 +11,23 @@ import moment from 'moment';
 
 const columns = [
     {
-        title: 'Name',
+        title: 'Nome',
         dataIndex: 'name',
     },
     {
-        title: 'Role',
+        title: 'Cargo',
         dataIndex: 'role',
     },
     {
-        title: 'Added On',
+        title: 'Adicionado em',
         dataIndex: 'addedOn',
     },
     {
-        title: 'Last Login',
+        title: 'Ultima vez',
         dataIndex: 'lastLogin',
     },
     {
-        title: 'Actions',
+        title: 'Ação',
         dataIndex: 'actions',
     },
 

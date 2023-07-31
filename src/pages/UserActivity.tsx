@@ -1,26 +1,27 @@
-import { Table } from "antd";
-import { useContext, useEffect, useState } from "react";
-import Axios from "axios";
-import { store } from "../store";
-import { USER_LOG_URL } from "../utils/myPaths";
 import {
-  errorHandler,
   NotificationTypes,
+  errorHandler,
   openNotificationWithIcon,
 } from "../utils/functions";
+import { useContext, useEffect, useState } from "react";
+
+import Axios from "axios";
+import { Table } from "antd";
+import { USER_LOG_URL } from "../utils/myPaths";
 import moment from "moment";
+import { store } from "../store";
 
 const columns = [
   {
-    title: "User",
+    title: "Usuario",
     dataIndex: "user",
   },
   {
-    title: "Action",
+    title: "Ação",
     dataIndex: "action",
   },
   {
-    title: "Created On",
+    title: "Criado em",
     dataIndex: "createdOn",
   },
 ];

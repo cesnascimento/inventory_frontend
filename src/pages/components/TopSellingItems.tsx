@@ -5,6 +5,8 @@ import Axios from "axios"
 import { errorHandler, NotificationTypes, openNotificationWithIcon, getAppGroups } from '../../utils/functions'
 import Loader from './Loader'
 import { PieChart, Pie, Sector, Cell, Label } from "recharts";
+import { DashboardProvider, useDashboardContext } from '../../contexts/DashboardContext'
+import { Button } from "antd";
 
 
 interface GroupData {
@@ -70,13 +72,15 @@ const renderActiveShape = (props: any) => {
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
-        fontSize={12}
+        fontSize={14}
       >{`Quantidade: ${value}`}</text>
     </g>
   );
 };
 
-export default function TopSellingItems() {
+function TopSellingItems() {
+
+  const { filteredDashboard, setFilteredDashboard } = useDashboardContext()
 
   const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
   const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
@@ -161,46 +165,50 @@ export default function TopSellingItems() {
     getGroups()
   }, [currentPage, search])
 
+  console.log('filter dashbord', filteredDashboard)
 
   return (
     <div>
       <div className="cardMain">
         <div className="headerContent">
           <h3>Gráfico dos Inventários</h3>
+          <Button type="primary" onClick={() => setFilteredDashboard('all')}>Exibir Todos</Button>
         </div>
         <PieChart width={700} height={530}>
-          <Pie
-            activeIndex={activeIndex1}
-            activeShape={renderActiveShape}
-            data={dataDesktop}
-            cx={'25%'} // Centraliza horizontalmente
-            cy={'30%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
-            dataKey="value"
-            onMouseEnter={onPieEnter1}
-            labelLine={false}
-            label={renderCustomizedLabel}
-          >
-            {dataNotebook.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <Label
-              content={() => (
-                <text x={'25%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
-                  Desktop
-                </text>
-              )}
-            />
-          </Pie>
-          <Pie
+          {(filteredDashboard === 'all' || filteredDashboard === 'desktop') && (
+            <Pie
+              activeIndex={activeIndex1}
+              activeShape={renderActiveShape}
+              data={dataDesktop}
+              cx={filteredDashboard === 'desktop' ? '50%' : '25%'} // Centraliza horizontalmente
+              cy={filteredDashboard === 'desktop' ? '50%' : '30%'} // Centraliza verticalmente
+              innerRadius={filteredDashboard === 'desktop' ? 120 : 40}
+              outerRadius={filteredDashboard === 'desktop' ? 200 : 60}
+              dataKey="value"
+              onMouseEnter={onPieEnter1}
+              labelLine={false}
+              label={renderCustomizedLabel}
+            >
+              {dataNotebook.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+              <Label
+                content={() => (
+                  <text x={filteredDashboard === 'desktop' ? '50%' : '25%'} y={filteredDashboard === 'desktop' ? '5%' : '10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                    Desktop
+                  </text>
+                )}
+              />
+            </Pie>
+          )}
+          {(filteredDashboard === 'all' || filteredDashboard === 'notebook') && (<Pie
             activeIndex={activeIndex2}
             activeShape={renderActiveShape}
             data={dataNotebook}
-            cx={'70%'} // Centraliza horizontalmente
-            cy={'30%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
+            cx={filteredDashboard === 'notebook' ? '50%' : '70%'} // Centraliza horizontalmente
+            cy={filteredDashboard === 'notebook' ? '50%' : '30%'} // Centraliza verticalmente
+            innerRadius={filteredDashboard === 'notebook' ? 120 : 40}
+            outerRadius={filteredDashboard === 'notebook' ? 200 : 60}
             dataKey="value"
             onMouseEnter={onPieEnter2}
             labelLine={false}
@@ -211,20 +219,20 @@ export default function TopSellingItems() {
             ))}
             <Label
               content={() => (
-                <text x={'70%'} y={'10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                <text x={filteredDashboard === 'notebook' ? '50%' : '70%'} y={filteredDashboard === 'notebook' ? '5%' : '10%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
                   Notebook
                 </text>
               )}
             />
-          </Pie>
-          <Pie
+          </Pie>)}
+          {(filteredDashboard === 'all' || filteredDashboard === 'mobile') && (<Pie
             activeIndex={activeIndex3}
             activeShape={renderActiveShape}
             data={dataNotebook}
-            cx={'25%'} // Centraliza horizontalmente
-            cy={'85%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
+            cx={filteredDashboard === 'mobile' ? '50%' : '25%'} // Centraliza horizontalmente
+            cy={filteredDashboard === 'mobile' ? '50%' : '85%'} // Centraliza verticalmente
+            innerRadius={filteredDashboard === 'mobile' ? 120 : 40}
+            outerRadius={filteredDashboard === 'mobile' ? 200 : 60}
             dataKey="value"
             onMouseEnter={onPieEnter3}
             labelLine={false}
@@ -235,20 +243,20 @@ export default function TopSellingItems() {
             ))}
             <Label
               content={() => (
-                <text x={'25%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                <text x={filteredDashboard === 'mobile' ? '50%' : '25%'} y={filteredDashboard === 'mobile' ? '5%' : '65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
                   Mobile
                 </text>
               )}
             />
-          </Pie>
-          <Pie
+          </Pie>)}
+          {(filteredDashboard === 'all' || filteredDashboard === 'datacenter') && (<Pie
             activeIndex={activeIndex4}
             activeShape={renderActiveShape}
             data={dataNotebook}
-            cx={'70%'} // Centraliza horizontalmente
-            cy={'85%'} // Centraliza verticalmente
-            innerRadius={40}
-            outerRadius={60}
+            cx={filteredDashboard === 'datacenter' ? '50%' : '70%'} // Centraliza horizontalmente
+            cy={filteredDashboard === 'datacenter' ? '50%' : '85%'} // Centraliza verticalmente
+            innerRadius={filteredDashboard === 'datacenter' ? 120 : 40}
+            outerRadius={filteredDashboard === 'datacenter' ? 200 : 60}
             dataKey="value"
             onMouseEnter={onPieEnter4}
             labelLine={false}
@@ -259,16 +267,19 @@ export default function TopSellingItems() {
             ))}
             <Label
               content={() => (
-                <text x={'70%'} y={'65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
+                <text x={filteredDashboard === 'datacenter' ? '50%' : '70%'} y={filteredDashboard === 'datacenter' ? '5%' : '65%'} textAnchor="middle" dominantBaseline="middle" fontSize={16}>
                   DataCenter
                 </text>
               )}
             />
-          </Pie>
+          </Pie>)}
         </PieChart>
       </div>
       <br />
       {/* <PurchaseSummary /> */}
     </div>
+
   );
 }
+
+export default TopSellingItems;
