@@ -29,7 +29,6 @@ export default function Sidebar() {
   }, [location]);
 
   const isSuperAdmin = userData.is_superuser === true;
-  console.log(isSuperAdmin)
 
   return (
     <div className="sidebarMain">
@@ -66,8 +65,8 @@ export default function Sidebar() {
       <MenuItemCustom
         title="Inventário Depreciado"
         icon={<ToolOutlined />}
-        linkTo="/inventory-datacenter"
-        isActive={activePage === "/inventory-datacenter"}
+        linkTo="/inventory-notebook"
+        isActive={activePage === "/inventory-notebook"}
       />
       <MenuItemCustom
         title="Local"

@@ -5,7 +5,6 @@ import Axios from "axios";
 import { store } from "../../store";
 import { INVENTORY_MOBILE_URL } from "../../utils/myPaths";
 import {
-    errorHandler,
     getAppGroups,
     getAppColab,
     NotificationTypes,

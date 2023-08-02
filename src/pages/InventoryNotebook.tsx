@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import InventoryNotebookForm from "./components/InventoryNotebookForm";
 import { store } from "../store";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import Axios from "axios";
 import {
   errorHandler,
@@ -168,7 +167,6 @@ export default function Inventory({
     );
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aquinotebook ->>>', res.data.results.map((item:any, i: number) => item))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         local: item.local?.name,

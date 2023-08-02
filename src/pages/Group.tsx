@@ -81,7 +81,6 @@ export default function Group() {
         const res = await getAppGroups(userToken, currentPage, search)
 
         if (res) {
-            console.log('AQUI É O RES DO GROUP', res.data.results, res.data.count)
             setGroupData(res.data.results)
             setTotalCount(res.data.count)
             setGroups(res.data.results.map((item: any, i: number) => ({

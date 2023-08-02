@@ -79,7 +79,6 @@ export default function Group() {
         if (res) {
             setGroupData(res.data.results)
             setTotalCount(res.data.count)
-            console.log('akicolab ->>  ',res.data.results.map((item:any) => item))
             setGroups(res.data.results.map((item: any, i: number) => ({
                 key: i,
                 id: item.id,

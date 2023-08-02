@@ -13,7 +13,7 @@ import { store } from "../store";
 
 const columns = [
   {
-    title: "Usuario",
+    title: "Usuário",
     dataIndex: "user",
   },
   {

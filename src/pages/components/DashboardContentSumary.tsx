@@ -5,7 +5,7 @@ import { SUMMARY_URL } from "../../utils/myPaths"
 import { store } from '../../store'
 import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions'
 import Loader from './Loader'
-import { DashboardProvider, useDashboardContext } from '../../contexts/DashboardContext'
+import { useDashboardContext } from '../../contexts/DashboardContext'
 
 function DashboardContentSumary() {
 

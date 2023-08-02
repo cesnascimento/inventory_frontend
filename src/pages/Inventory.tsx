@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import InventoryForm from "./components/InventoryForm";
 import { store } from "../store";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import Axios from "axios";
 import {
   errorHandler,
@@ -169,7 +168,6 @@ export default function Inventory({
 
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aqui2 ->>>', res.data.results.map((item:any, i: number) => console.log(item.local?.name)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         local: item.local?.name,

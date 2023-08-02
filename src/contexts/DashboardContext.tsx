@@ -10,7 +10,6 @@ const DashboardContext = createContext<DashboardContextType | undefined>(undefin
 
 export const DashboardProvider: React.FC = ({ children }) => {
   const [filteredDashboard, setFilteredDashboard] = useState<string>('all');
-  console.log('FILTER',filteredDashboard)
 
   return (
     <DashboardContext.Provider value={{ filteredDashboard, setFilteredDashboard }}>

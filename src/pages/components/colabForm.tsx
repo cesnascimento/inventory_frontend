@@ -1,11 +1,10 @@
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import { store } from '../../store';
 import { errorHandler, NotificationTypes, openNotificationWithIcon } from '../../utils/functions';
 import Axios from "axios"
 import { COLABORATE_URL } from '../../utils/myPaths';
 
-const { Option } = Select;
 
 export default function GroupForm({
     onAddComplete, belongsToList,

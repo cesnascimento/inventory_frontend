@@ -1,17 +1,20 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { store } from '../../store'
-import DateSelector from './DateSelector'
 import Axios from "axios"
-import { errorHandler, NotificationTypes, openNotificationWithIcon, getAppGroups } from '../../utils/functions'
-import Loader from './Loader'
+import { getAppGroups } from '../../utils/functions'
 import { PieChart, Pie, Sector, Cell, Label } from "recharts";
-import { DashboardProvider, useDashboardContext } from '../../contexts/DashboardContext'
+import { useDashboardContext } from '../../contexts/DashboardContext'
 import { Button } from "antd";
+import { INVENTORY_DATACENTER_URL, INVENTORY_MOBILE_URL } from '../../utils/myPaths'
 
 
 interface GroupData {
   name: string;
-  equip: number;
+  value: number;
+}
+interface Item {
+  marca: string;
+  descricao: string;
 }
 
 const renderActiveShape = (props: any) => {
@@ -84,6 +87,8 @@ function TopSellingItems() {
 
   const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
   const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
+  const [dataMobile, setDataMobile] = useState<GroupData[]>([]);
+  const [dataDataCenter, setDataDataCenter] = useState<GroupData[]>([]);
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
   const [fetching, setFetching] = useState(true);
@@ -161,11 +166,82 @@ function TopSellingItems() {
     }
   };
 
+  const getInventoryMobile = async () => {
+    setFetching(true);
+
+    const res = await Axios.get(
+      INVENTORY_MOBILE_URL + `?page=${currentPage}&keyword=${search}`,
+      { headers: { Authorization: userToken } }
+    ).catch((e) =>
+      console.log(e)
+    );
+    if (res) {
+      /* const dataMobile = res.data.results.map((item: any, i: number) => ({
+        name: item.marca,
+        value: item.marca.length
+      })) */
+      const marcaCount: { [key: string]: number } = {};
+
+      // Loop para contar as ocorrências de cada 'marca'
+      for (const item of res.data.results as Item[]) {
+        const marca = item.marca;
+        marcaCount[marca] = (marcaCount[marca] || 0) + 1;
+      }
+
+      // Criando o array 'dataMobile' com as contagens
+      const dataMobile: GroupData[] = [];
+      for (const marca in marcaCount) {
+        dataMobile.push({ name: marca, value: marcaCount[marca] });
+      }
+      setDataMobile(dataMobile)
+      console.log('dashboard mobile', dataMobile)
+    }
+
+    setFetching(false);
+  };
+  const getInventoryDataCenter = async () => {
+    setFetching(true);
+
+    const res = await Axios.get(
+      INVENTORY_DATACENTER_URL + `?page=${currentPage}&keyword=${search}`,
+      { headers: { Authorization: userToken } }
+    ).catch((e) =>
+      console.log(e)
+    );
+    if (res) {
+      /* const dataMobile = res.data.results.map((item: any, i: number) => ({
+        name: item.marca,
+        value: item.marca.length
+      })) */
+      const descricaoCount: { [key: string]: number } = {};
+
+      // Loop para contar as ocorrências de cada 'marca'
+      for (const item of res.data.results as Item[]) {
+        const descricao = item.descricao;
+        descricaoCount[descricao] = (descricaoCount[descricao] || 0) + 1;
+      }
+
+      // Criando o array 'dataMobile' com as contagens
+      const dataDataCenter: GroupData[] = [];
+      for (const descricao in descricaoCount) {
+        dataDataCenter.push({ name: descricao, value: descricaoCount[descricao] });
+      }
+      setDataDataCenter(dataDataCenter)
+      console.log('dashboard datacenter', dataDataCenter)
+    }
+
+    setFetching(false);
+  };
+
   useEffect(() => {
     getGroups()
   }, [currentPage, search])
-
-  console.log('filter dashbord', filteredDashboard)
+  useEffect(() => {
+    getInventoryMobile()
+  }, [currentPage, search])
+  useEffect(() => {
+    getInventoryDataCenter()
+  }, [currentPage, search])
 
   return (
     <div>
@@ -228,7 +304,7 @@ function TopSellingItems() {
           {(filteredDashboard === 'all' || filteredDashboard === 'mobile') && (<Pie
             activeIndex={activeIndex3}
             activeShape={renderActiveShape}
-            data={dataNotebook}
+            data={dataMobile}
             cx={filteredDashboard === 'mobile' ? '50%' : '25%'} // Centraliza horizontalmente
             cy={filteredDashboard === 'mobile' ? '50%' : '85%'} // Centraliza verticalmente
             innerRadius={filteredDashboard === 'mobile' ? 120 : 40}
@@ -252,7 +328,7 @@ function TopSellingItems() {
           {(filteredDashboard === 'all' || filteredDashboard === 'datacenter') && (<Pie
             activeIndex={activeIndex4}
             activeShape={renderActiveShape}
-            data={dataNotebook}
+            data={dataDataCenter}
             cx={filteredDashboard === 'datacenter' ? '50%' : '70%'} // Centraliza horizontalmente
             cy={filteredDashboard === 'datacenter' ? '50%' : '85%'} // Centraliza verticalmente
             innerRadius={filteredDashboard === 'datacenter' ? 120 : 40}

@@ -14,13 +14,11 @@ export interface ActionProps {
 
 function userReducer(state: any, action: ActionProps) {
   if (action.type === ActionTypes.UPDATE_USER_DATA) {
-    console.log('IF',action.payload)
     return {
       ...state,
       userData: action.payload,
     };
   } else if (action.type === ActionTypes.UPDATE_USER_TOKEN) {
-    console.log('ELSE IF',action.payload)
     return {
       ...state,
       userToken: action.payload,

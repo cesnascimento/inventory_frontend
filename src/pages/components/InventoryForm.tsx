@@ -5,7 +5,6 @@ import Axios from "axios";
 import { store } from "../../store";
 import { INVENTORY_URL } from "../../utils/myPaths";
 import {
-    errorHandler,
     getAppGroups,
     getAppColab,
     NotificationTypes,
@@ -133,20 +132,6 @@ export default function InventoryForm({
         }
     }, [activeItem, groupItem, colabItem])
 
-    /* const selectElement = document.querySelector('.colaborador') as HTMLElement;
-    let currentPage = 1;
-
-    selectElement?.addEventListener('scroll', (e) => {
-        console.log('scrool', e)
-        const scrollPosition = selectElement.scrollTop + selectElement.offsetHeight;
-        const totalHeight = selectElement.scrollHeight;
-    
-    if (scrollPosition === totalHeight) {
-        console.log('Final de scroll alcançado!');
-    }
-    });
-
-    console.log(selectElement) */
 
     const handleScroll = (event: any) => {
         const element = event.target;
@@ -156,7 +141,6 @@ export default function InventoryForm({
 
         if (scrollPosition === totalHeight) {
             getColabs(2)
-            console.log("Final de scroll alcançado!");
 
             // carregue mais itens de colaboradores
             setCurrentPage(currentPage + 1);
@@ -168,7 +152,6 @@ export default function InventoryForm({
                     }
                 }
             });
-            console.log('aqui colabitem', colabItem)
         }
     };
 

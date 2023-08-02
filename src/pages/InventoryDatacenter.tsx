@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import InventoryDatacenterForm from "./components/InventoryDatacenterForm";
 import { store } from "../store";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import Axios from "axios";
 import {
   errorHandler,
@@ -160,7 +159,6 @@ export default function Inventory({
     );
     if (res) {
       setTotalCount(res.data.count);
-      console.log('aquimdatacenter ->>>', res.data.results.map((item:any, i: number) => console.log(item.empresa)))
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
         ip: item.ip,

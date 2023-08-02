@@ -1,34 +1,25 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { store } from "../../store";
 import Axios from "axios";
-/* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
 import {
-  errorHandler,
-  NotificationTypes,
-  openNotificationWithIcon,
   getAppGroups
 } from "../../utils/functions";
-import Loader from "./Loader";
-import { PieChart, Pie, Sector, Cell, Label } from "recharts";
 import { Space, Typography } from 'antd';
 import { INVENTORY_MOBILE_URL } from "../../utils/myPaths";
 
 
-
 interface GroupData {
   name: string;
-  equip: number;
+  value: number;
 }
 
 
 export default function SalePieChart() {
-  const [saleChart, setSaleChart]: any = useState([]);
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState("")
   const [fetching, setFetching] = useState(true);
   const [dataDesktop, setDataDesktop] = useState<GroupData[]>([]);
   const [dataNotebook, setDataNotebook] = useState<GroupData[]>([]);
-  const [dataMobile, setDataMobile] = useState<GroupData[]>([]);
   const [inventory, setInventory]: any = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -53,7 +44,6 @@ export default function SalePieChart() {
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
 
-      console.log('aqui data desktop', dataDesktop)
     }
   };
 
@@ -68,18 +58,17 @@ export default function SalePieChart() {
     );
     if (res) {
       setTotalCount(res.data.count);
-      const data = res.data.results.map((item: any, i: number) => ({
+      const dataMobile = res.data.results.map((item: any, i: number) => ({
         marca: item.marca,
         name: item.colaborador?.name
       }))
-      const totalMobileFilter = data.filter((item:any) => item.name === 'colaborador teste');
+      const totalMobileFilter = dataMobile.filter((item:any) => item.name === 'colaborador teste');
       setInventory([...totalMobileFilter]);
     }
     
     setFetching(false);
   };
 
-  console.log('inventario',inventory)
   
   const sumValuesData = (data:any, propertyName:string) => data
   .filter((item:any) => item.name === propertyName)
@@ -93,7 +82,6 @@ export default function SalePieChart() {
     getInventory()
   }, [currentPage, search])
 
-  console.log('NOVO AQUI', inventory.filter((item:any) => item.name === 'colab teste'))
   return (
     <div>
       <div className="cardMain">

@@ -1,25 +1,17 @@
-import { Dropdown, Menu, Button } from "antd";
+import { Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { store } from "../store";
 import { logout } from "../utils/functions";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function Header() {
-  const {
-    state: { userData },
-  } = useContext(store);
   return (
     <div className="headerMain">
       <div className="brand">INVENTÁRIO</div>
       <div className="rightNav">
         <div />
         <div className="flex align-center">
-          {/* {userData.role !== "sale" && (
-            <Link to="/invoice-section">
-              <Button type="primary">Nova Fatura</Button>
-            </Link>
-          )} */}
           <div className="spacer-10"></div>
           <UserAvatar />
         </div>

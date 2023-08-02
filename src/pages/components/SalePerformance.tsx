@@ -1,21 +1,9 @@
-import React from 'react'
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState, useEffect} from "react";
 import { store } from "../../store";
-import DateSelector from "./DateSelector";
-import Axios from "axios";
-/* import { SALE_BY_SHOP_URL } from "../../utils/myPaths"; */
 import {
-  errorHandler,
-  NotificationTypes,
-  openNotificationWithIcon,
   getAppGroups
 } from "../../utils/functions";
-import { useEffect } from "react";
-/* import Chart from "react-google-charts"; */
-import Loader from "./Loader";
-import moment from "moment";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts';
 
 interface GroupData {
   name: string;
@@ -60,7 +48,6 @@ export default function SalePerformance() {
 
       setNewData(newData); // Atualizar a nova variável de estado
 
-      console.log('aqui res do dashboard2', newData)
     }
   };
 
