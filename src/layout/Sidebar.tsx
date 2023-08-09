@@ -62,12 +62,12 @@ export default function Sidebar() {
         linkTo="/inventory-datacenter"
         isActive={activePage === "/inventory-datacenter"}
       />
-      <MenuItemCustom
+      {/* <MenuItemCustom
         title="Inventário Depreciado"
         icon={<ToolOutlined />}
         linkTo="/inventory-notebook"
         isActive={activePage === "/inventory-notebook"}
-      />
+      /> */}
       <MenuItemCustom
         title="Local"
         icon={<ShopOutlined />}
@@ -104,6 +104,14 @@ export default function Sidebar() {
           icon={<NumberOutlined />}
           linkTo="/user-activities"
           isActive={activePage === "/user-activities"}
+        />
+      )}
+      {isSuperAdmin && (
+        <MenuItemCustom
+          title="Atividades de Inventarios"
+          icon={<NumberOutlined />}
+          linkTo="/inventory-activities"
+          isActive={activePage === "/inventory-activities"}
         />
       )}
     </div>
