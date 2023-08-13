@@ -6,7 +6,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 
 import Axios from "axios";
-import { Table } from "antd";
+import { Table, DatePicker } from "antd";
 import { INVENTORY_LOG_URL } from "../utils/myPaths";
 import moment from "moment";
 import { store } from "../store";
@@ -27,12 +27,12 @@ const columns = [
     dataIndex: "patrimonio",
   },
   {
-    title: "De Local/Colaborador",
-    dataIndex: "de",
+    title: "Local",
+    dataIndex: "local",
   },
   {
-    title: "Para Local/Colaborador",
-    dataIndex: "para",
+    title: "Colaborador",
+    dataIndex: "colaborador",
   },
   /* {
     title: "Observação",
@@ -54,10 +54,31 @@ export default function InventoryActivity() {
     state: { userToken },
   } = useContext(store);
 
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date:any) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date:any) => {
+    setEndDate(date);
+  };
+
   const getActivities = async () => {
     setFetching(true);
 
-    const formattedSearchDate = moment(search, "DD/MM/YYYY", true);
+    const formattedStartDate = startDate ? moment(startDate).format("DD/MM/YYYY") : "";
+    const formattedEndDate = endDate ? moment(endDate).format("DD/MM/YYYY") : "";
+
+    const res = await Axios.get(INVENTORY_LOG_URL + `?page=${currentPage}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`, {
+      headers: { Authorization: userToken },
+    }).catch((e) => {
+      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
+    });
+
+    /* const formattedSearchDate = moment(search, "DD/MM/YYYY", true);
     let formattedDateForAPI = '';
 
     if (formattedSearchDate.isValid()) {
@@ -70,7 +91,7 @@ export default function InventoryActivity() {
       headers: { Authorization: userToken },
     }).catch((e) => {
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
-    });
+    }); */
 
     if (res) {
       setTotalCount(res.data.count);
@@ -81,8 +102,8 @@ export default function InventoryActivity() {
           user: item.fullname,
           inventario: item.inventario,
           patrimonio: item.patrimonio,
-          de: `${item.local} / ${item.colaborador}`,
-          para: `${item.local_novo} / ${item.colaborador_novo}`,
+          local: `${item.local} ⇀ ${item.local_novo}`,
+          colaborador: `${item.colaborador} ⇀ ${item.colaborador_novo}`,
           createdOn: moment(item.created_at).format("DD-MM-YYYY"),
           /* createdOn: moment(item.created_at_formatted), */
         }))
@@ -94,13 +115,16 @@ export default function InventoryActivity() {
 
   useEffect(() => {
     getActivities();
-  }, [currentPage, search]);
+  }, [currentPage, startDate, endDate]);
 
   return (
     <>
       <div className="cardMain">
         <div className="headerContent">
           <h3>Atividades de Inventarios</h3>
+          <DatePicker onChange={handleStartDateChange} />
+          {/* Adicione o DatePicker para a data de fim */}
+          <DatePicker onChange={handleEndDateChange} />
           <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
         </div>
 
