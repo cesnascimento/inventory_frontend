@@ -19,7 +19,7 @@ const columns = [
     dataIndex: "user",
   },
   {
-    title: "Inventario",
+    title: "Inventário",
     dataIndex: "inventario",
   },
   {
@@ -34,10 +34,10 @@ const columns = [
     title: "Colaborador",
     dataIndex: "colaborador",
   },
-  /* {
-    title: "Observação",
-    dataIndex: "motivo",
-  }, */
+  {
+    title: "Motivo",
+    dataIndex: "motivo_depreciado",
+  },
   {
     title: "Criado em",
     dataIndex: "createdOn",
@@ -56,18 +56,6 @@ export default function InventoryActivity() {
     state: { userToken },
   } = useContext(store);
 
-  /* const getTopSellingData = async () => {
-    const res = await Axios.get(INVENTORY_LOG_URL + `${dateInfo}`, {
-      headers: { Authorization: userToken },
-    }).catch((e) =>
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
-    );
-    if (res) {
-      console.log('aqui data 22', res.data)
-      setTopSelling(res.data);
-      setFetching(false);
-    }
-  }; */
 
   const handleDateSelect = (val: any) => {
     if (val) {
@@ -89,7 +77,7 @@ export default function InventoryActivity() {
     const res = await Axios.get(INVENTORY_LOG_URL + queryParams, {
       headers: { Authorization: userToken },
     }).catch((e) => {
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
+      console.log(e);
     });
 
 
@@ -104,6 +92,7 @@ export default function InventoryActivity() {
           patrimonio: item.patrimonio,
           local: `${item.local} ⇀ ${item.local_novo}`,
           colaborador: `${item.colaborador} ⇀ ${item.colaborador_novo}`,
+          motivo_depreciado: item.motivo_depreciado,
           createdOn: moment(item.created_at).format("DD-MM-YYYY"),
           /* createdOn: moment(item.created_at_formatted), */
         }))

@@ -127,7 +127,7 @@ export default function InventoryForm({
 
     useEffect(() => {
         if (activeItem && groupItem.length && colabItem.length > 0) {
-            form.setFieldsValue({ ...activeItem, group_id: activeItem.group?.id })
+            form.setFieldsValue({ ...activeItem, local_id: activeItem.local?.id, colaborador_id: activeItem.colaborador?.id })
             setImageContent(activeItem.photo)
         }
     }, [activeItem, groupItem, colabItem])
@@ -289,6 +289,12 @@ export default function InventoryForm({
                     label="Configuração"
                     name="configuracao"
                     rules={[{ required: true, message: "Please input item name" }]}
+                >
+                    <TextArea rows={4} placeholder="Enter item name" />
+                </Form.Item>
+                <Form.Item
+                    label="Motivo"
+                    name="motivo_depreciado"
                 >
                     <TextArea rows={4} placeholder="Enter item name" />
                 </Form.Item>

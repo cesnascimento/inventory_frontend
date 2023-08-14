@@ -20,11 +20,11 @@ const columns = [
     dataIndex: "ip",
   },
   {
-    title: "descricao",
+    title: "Descricao",
     dataIndex: "descricao",
   },
   {
-    title: "hostname",
+    title: "HostName",
     dataIndex: "hostname",
   },
   {
@@ -44,7 +44,7 @@ const columns = [
     dataIndex: "nf_so",
   },
   {
-    title: "empresa",
+    title: "Empresa",
     dataIndex: "empresa",
   },
   {
@@ -58,6 +58,10 @@ const columns = [
   {
     title: "Configuração",
     dataIndex: "configuracao",
+  },
+  {
+    title: "Motivo",
+    dataIndex: "motivo_depreciado",
   },
   {
     title: "Adicionado em",
@@ -167,11 +171,13 @@ export default function Inventory({
         usuario: item.usuario,
         colaborador: item.colaborador?.name,
         sistema_operacional: item.sistema_operacional,
+        service_tag: item.service_tag,
         nf_so: item.nf_so,
         empresa: item.empresa,
         marca: item.marca,
         modelo: item.modelo,
         configuracao: item.configuracao,
+        motivo_depreciado: item.motivo_depreciado,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
         actions: noAuth ? null : invoiceSection ? (
           formAction ? (

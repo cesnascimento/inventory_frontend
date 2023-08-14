@@ -11,7 +11,7 @@ export default function DateSelector({
 }) {
   return (
     <div>
-      <RangePicker picker={picker} onChange={handleChange} />
+      <RangePicker size='small' picker={picker} format="DD/MM/YYYY" onChange={handleChange} />
     </div>
   );
 }

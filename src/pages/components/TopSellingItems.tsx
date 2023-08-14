@@ -153,14 +153,16 @@ function TopSellingItems() {
     const res = await getAppGroups(userToken, currentPage, search);
 
     if (res) {
+      console.log('dashboard desktop', res.data.results)
       const dataDesktop: GroupData[] = res.data.results.map((item: any) => ({
         name: item.name,
-        value: Number(item.desktop_items),
+        value: Number(item.total_items),
       }));
       const dataNotebook: GroupData[] = res.data.results.map((item: any) => ({
         name: item.name,
-        value: Number(item.notebook_items)
+        value: Number(item.total_items)
       }))
+      console.log('dashboard desktop', dataDesktop)
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
     }

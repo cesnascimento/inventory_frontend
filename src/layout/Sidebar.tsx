@@ -62,12 +62,12 @@ export default function Sidebar() {
         linkTo="/inventory-datacenter"
         isActive={activePage === "/inventory-datacenter"}
       />
-      {/* <MenuItemCustom
+      <MenuItemCustom
         title="Inventário Depreciado"
         icon={<ToolOutlined />}
-        linkTo="/inventory-notebook"
-        isActive={activePage === "/inventory-notebook"}
-      /> */}
+        linkTo="/inventory-deprecated"
+        isActive={activePage === "/inventory-deprecated"}
+      />
       <MenuItemCustom
         title="Local"
         icon={<ShopOutlined />}

@@ -52,6 +52,10 @@ const columns = [
     dataIndex: "obs",
   },
   {
+    title: "Motivo",
+    dataIndex: "motivo_depreciado",
+  },
+  {
     title: "Adicionado em",
     dataIndex: "addedOn",
   },
@@ -165,6 +169,7 @@ export default function Inventory({
         nf: item.nf,
         linha: item.linha,
         obs: item.obs,
+        motivo_depreciado: item.motivo_depreciado,
         addedOn: moment(item.created_at).format("DD-MM-YYYY"),
         actions: noAuth ? null : invoiceSection ? (
           formAction ? (
