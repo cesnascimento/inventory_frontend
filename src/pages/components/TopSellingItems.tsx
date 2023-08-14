@@ -163,6 +163,7 @@ function TopSellingItems() {
         value: Number(item.total_items)
       }))
       console.log('dashboard desktop', dataDesktop)
+      console.log('dashboard desktop', dataNotebook)
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
     }
@@ -267,7 +268,7 @@ function TopSellingItems() {
               labelLine={false}
               label={renderCustomizedLabel}
             >
-              {dataNotebook.map((entry, index) => (
+              {dataDesktop.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
               <Label
