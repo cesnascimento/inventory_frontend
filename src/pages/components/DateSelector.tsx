@@ -9,7 +9,6 @@ export default function DateSelector({
   picker?: "week" | "month";
   handleChange?: (val: any) => void;
 }) {
-  return null;
   return (
     <div>
       <RangePicker picker={picker} onChange={handleChange} />

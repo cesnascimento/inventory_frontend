@@ -4,7 +4,7 @@ import {
   openNotificationWithIcon,
 } from "../utils/functions";
 import { useContext, useEffect, useState } from "react";
-
+import DateSelector from './components/DateSelector'
 import Axios from "axios";
 import { Table, DatePicker } from "antd";
 import { INVENTORY_LOG_URL } from "../utils/myPaths";
@@ -46,52 +46,52 @@ const columns = [
 
 export default function InventoryActivity() {
   const [activities, setActivities]: any = useState([]);
+  const [topSelling, setTopSelling]: any = useState([])
   const [fetching, setFetching] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [search, setSearch] = useState("");
+  const [dateInfo, setDateInfo]: any = useState("");
   const {
     state: { userToken },
   } = useContext(store);
 
+  /* const getTopSellingData = async () => {
+    const res = await Axios.get(INVENTORY_LOG_URL + `${dateInfo}`, {
+      headers: { Authorization: userToken },
+    }).catch((e) =>
+      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e))
+    );
+    if (res) {
+      console.log('aqui data 22', res.data)
+      setTopSelling(res.data);
+      setFetching(false);
+    }
+  }; */
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
-  const handleStartDateChange = (date:any) => {
-    setStartDate(date);
+  const handleDateSelect = (val: any) => {
+    if (val) {
+      const [startMoment, endMoment] = val;
+      setDateInfo(
+        `?start_date=${startMoment.format(
+          "YYYY-MM-DD"
+        )}&end_date=${endMoment.format("YYYY-MM-DD")}`
+      );
+    } else {
+      setDateInfo("");
+    }
   };
 
-  const handleEndDateChange = (date:any) => {
-    setEndDate(date);
-  };
 
   const getActivities = async () => {
     setFetching(true);
-
-    const formattedStartDate = startDate ? moment(startDate).format("DD/MM/YYYY") : "";
-    const formattedEndDate = endDate ? moment(endDate).format("DD/MM/YYYY") : "";
-
-    const res = await Axios.get(INVENTORY_LOG_URL + `?page=${currentPage}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`, {
+    const queryParams = dateInfo ? dateInfo : `?page=${currentPage}&keyword=${search}`;
+    const res = await Axios.get(INVENTORY_LOG_URL + queryParams, {
       headers: { Authorization: userToken },
     }).catch((e) => {
       openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
     });
 
-    /* const formattedSearchDate = moment(search, "DD/MM/YYYY", true);
-    let formattedDateForAPI = '';
-
-    if (formattedSearchDate.isValid()) {
-      formattedDateForAPI = formattedSearchDate.format("YYYY-MM-DD");
-    } else {
-      console.log("Data inválida");
-    }
-
-    const res = await Axios.get(INVENTORY_LOG_URL + `?page=${currentPage}&keyword=${encodeURIComponent(formattedDateForAPI)}`, {
-      headers: { Authorization: userToken },
-    }).catch((e) => {
-      openNotificationWithIcon(NotificationTypes.ERROR, errorHandler(e));
-    }); */
 
     if (res) {
       setTotalCount(res.data.count);
@@ -115,16 +115,18 @@ export default function InventoryActivity() {
 
   useEffect(() => {
     getActivities();
-  }, [currentPage, startDate, endDate]);
+  }, [currentPage, search]);
+
+  useEffect(() => {
+    getActivities();
+  }, [dateInfo]);
 
   return (
     <>
       <div className="cardMain">
         <div className="headerContent">
           <h3>Atividades de Inventarios</h3>
-          <DatePicker onChange={handleStartDateChange} />
-          {/* Adicione o DatePicker para a data de fim */}
-          <DatePicker onChange={handleEndDateChange} />
+          <DateSelector handleChange={handleDateSelect} />
           <Searchbar style={{ minWidth: "250px" }} onSearch={setSearch} />
         </div>
 
