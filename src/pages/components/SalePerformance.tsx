@@ -56,7 +56,7 @@ export default function SalePerformance() {
     <div>
       <div className="cardMain">
         <div className="headerContent">
-          <h3>Equipamentos por loja</h3>
+          <h3>Equipamentos por Local</h3>
         </div>
         <div
           style={{

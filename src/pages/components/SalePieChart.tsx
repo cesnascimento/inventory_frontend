@@ -41,6 +41,7 @@ export default function SalePieChart() {
         name: item.name,
         value: Number(item.notebook_items)
       }))
+      
       setDataDesktop(dataDesktop); // Atualizar a nova variável de estado
       setDataNotebook(dataNotebook); // Atualizar a nova variável de estado
 
@@ -62,7 +63,7 @@ export default function SalePieChart() {
         marca: item.marca,
         name: item.colaborador?.name
       }))
-      const totalMobileFilter = dataMobile.filter((item:any) => item.name === 'colaborador teste');
+      const totalMobileFilter = dataMobile.filter((item:any) => item.name === 'Estoque');
       setInventory([...totalMobileFilter]);
     }
     
@@ -89,8 +90,8 @@ export default function SalePieChart() {
           <h3>Total Estoque</h3>
         </div>
         <Space direction="vertical">
-        <Text strong>Desktop: {sumValuesData(dataDesktop, 'local teste')}</Text>
-        <Text strong>Notebook: {sumValuesData(dataNotebook, 'local teste')}</Text>
+        <Text strong>Desktop: {sumValuesData(dataDesktop, 'Estoque')}</Text>
+        <Text strong>Notebook: {sumValuesData(dataNotebook, 'Estoque')}</Text>
         <Text strong>Mobile: {inventory.length}</Text>
         </Space>
       </div>

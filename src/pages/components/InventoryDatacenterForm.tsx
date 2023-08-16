@@ -116,10 +116,8 @@ export default function InventoryForm({
     };
 
     useEffect(() => {
-        console.log('aqui active item', activeItem);
         if (activeItem && groupItem.length && colabItem.length > 0) {
             form.setFieldsValue({ ...activeItem, colaborador_id: activeItem.colaborador?.id })
-            console.log('aqui active item22222', form.getFieldsValue())
             setImageContent(activeItem.photo)
         }
     }, [activeItem, groupItem, colabItem])

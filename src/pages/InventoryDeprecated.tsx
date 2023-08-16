@@ -295,7 +295,6 @@ export default function Inventory({
       }));
       const totalMobileFilter = data.filter((item: any) => item.colaborador === 'Depreciado');
       setInventoryMobile([...totalMobileFilter]);
-      console.log('aqui dewpreciado filter1', totalMobileFilter)
     }
   }
 
@@ -367,7 +366,6 @@ export default function Inventory({
         item.colaborador === 'Depreciado' && item.local === 'Depreciado'
       );
       setInventoryNotebook([...totalNotebookFilter]);
-      console.log('aqui dewpreciado filter', totalNotebookFilter)
     }
   }
 
@@ -438,7 +436,6 @@ export default function Inventory({
         item.colaborador === 'Depreciado' && item.local === 'Depreciado'
       );
       setInventoryDesktop([...totalDesktopFilter]);
-      console.log('aqui dewpreciado filter dektop', totalDesktopFilter)
     }
   }
 
@@ -508,7 +505,6 @@ export default function Inventory({
 
       const totalDataCenterFilter = data.filter((item: any) => item.colaborador === 'Depreciado');
       setInventoryDataCenter([...totalDataCenterFilter]);
-      console.log('aqui dewpreciado filter datacenter', totalDataCenterFilter)
     }
 
 
