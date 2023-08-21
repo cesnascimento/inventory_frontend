@@ -246,7 +246,7 @@ export default function Inventory({
       setTotalCount(res.data.count);
       const data = res.data.results.map((item: any, i: number) => ({
         key: i,
-        patrimonio: item.patrimonio,
+        patrimonio: item.imei,
         marca: item.marca,
         modelo: item.modelo,
         usuario: item.usuario,

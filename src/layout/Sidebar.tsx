@@ -106,31 +106,30 @@ export default function Sidebar() {
           isActive={activePage === "/user-activities"}
         />
       )}
-      {isSuperAdmin && (
-        <MenuItemCustom
-          title="Atividades de Inventarios"
-          icon={<NumberOutlined />}
-          linkTo="/inventory-activities"
-          isActive={activePage === "/inventory-activities"}
-        />
-      )}
+      <MenuItemCustom
+        title="Atividades de Inventários"
+        icon={<NumberOutlined />}
+        linkTo="/inventory-activities"
+        isActive={activePage === "/inventory-activities"}
+      />
+
     </div>
   );
 }
 
 const MenuItemCustom = ({ icon, title, isActive, linkTo }: {
-    icon: React.ReactElement
-    title: string,
-    isActive: boolean,
-    linkTo: string
+  icon: React.ReactElement
+  title: string,
+  isActive: boolean,
+  linkTo: string
 }) => {
-    return (
-        <Link to={linkTo}>
-            <div className={`meniItem ${isActive ? 'active' : ""}`}>
-                {icon} <span className="title">
-                    {title}
-                </span>
-            </div>
-        </Link>
-    )
+  return (
+    <Link to={linkTo}>
+      <div className={`meniItem ${isActive ? 'active' : ""}`}>
+        {icon} <span className="title">
+          {title}
+        </span>
+      </div>
+    </Link>
+  )
 }

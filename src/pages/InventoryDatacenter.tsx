@@ -20,7 +20,7 @@ const columns = [
     dataIndex: "ip",
   },
   {
-    title: "Descricao",
+    title: "Descrição",
     dataIndex: "descricao",
   },
   {

@@ -83,7 +83,6 @@ export default function InventoryActivity() {
 
     if (res) {
       setTotalCount(res.data.count);
-      console.log('AQUI O RES DA ATIVIDADE', res.data.results)
       setActivities(
         res.data.results.map((item: any, i: number) => ({
           key: i,

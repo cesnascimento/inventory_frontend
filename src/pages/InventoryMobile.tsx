@@ -16,7 +16,7 @@ import InventoryFormExcel from "./components/InventoryFormExcel";
 
 const columns = [
   {
-    title: "Patrimonio",
+    title: "Patrimônio",
     dataIndex: "patrimonio",
   },
   {
