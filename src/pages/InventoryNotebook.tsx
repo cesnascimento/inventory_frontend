@@ -12,7 +12,7 @@ import {
   openNotificationWithIcon,
 } from "../utils/functions";
 import { INVENTORY_NOTEBOOK_URL } from "../utils/myPaths";
-import InventoryFormExcel from "./components/InventoryFormExcelNotebook";
+import InventoryFormExcelNotebook from "./components/InventoryFormExcelNotebook";
 
 const columns = [
   {
@@ -292,7 +292,7 @@ export default function Inventory({
         {isSingleAdd ? (
           <InventoryNotebookForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
-          <InventoryFormExcel onAddComplete={closeModal} />
+          <InventoryFormExcelNotebook onAddComplete={closeModal} />
         )}
       </Modal>
     </>

@@ -12,7 +12,7 @@ import {
   openNotificationWithIcon,
 } from "../utils/functions";
 import { INVENTORY_MOBILE_URL } from "../utils/myPaths";
-import InventoryFormExcel from "./components/InventoryFormExcelMobile";
+import InventoryFormExcelMobile from "./components/InventoryFormExcelMobile";
 
 const columns = [
   {
@@ -276,7 +276,7 @@ export default function Inventory({
         {isSingleAdd ? (
           <InventoryMobileForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
-          <InventoryFormExcel onAddComplete={closeModal} />
+          <InventoryFormExcelMobile onAddComplete={closeModal} />
         )}
       </Modal>
     </>

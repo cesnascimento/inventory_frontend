@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import Axios from "axios"
 import { store } from '../../store';
 
-export default function InventoryFormExcel({
+export default function InventoryFormExcelnotebook({
     onAddComplete
 }: { onAddComplete: () => void }) {
     const [isLoading, setIsLoading] = useState(false)

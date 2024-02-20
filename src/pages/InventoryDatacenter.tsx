@@ -12,7 +12,7 @@ import {
   openNotificationWithIcon,
 } from "../utils/functions";
 import { INVENTORY_DATACENTER_URL } from "../utils/myPaths";
-import InventoryFormExcel from "./components/InventoryFormExcelDatacenter";
+import InventoryFormExcelDataCenter from "./components/InventoryFormExcelDatacenter";
 
 const columns = [
   {
@@ -284,7 +284,7 @@ export default function Inventory({
         {isSingleAdd ? (
           <InventoryDatacenterForm onAddComplete={closeModal} activeItem={activeItem} />
         ) : (
-          <InventoryFormExcel onAddComplete={closeModal} />
+          <InventoryFormExcelDataCenter onAddComplete={closeModal} />
         )}
       </Modal>
     </>
