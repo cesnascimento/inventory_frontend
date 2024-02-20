@@ -168,7 +168,6 @@ function TopSellingItems() {
 
   const getInventoryMobile = async () => {
     setFetching(true);
-
     const res = await Axios.get(
       INVENTORY_MOBILE_URL + `?page=${currentPage}&keyword=${search}`,
       { headers: { Authorization: userToken } }

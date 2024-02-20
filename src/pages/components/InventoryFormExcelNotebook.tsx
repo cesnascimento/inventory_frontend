@@ -34,7 +34,7 @@ export default function InventoryFormExcel({
     const exportInventoryCSV = async () => {
         try {
           const userToken = localStorage.getItem("userToken");
-          const res = await Axios.get('http://10.74.51.28:8000/app/export-desktop-csv/', {
+          const res = await Axios.get('http://10.74.51.28:8000/app/export-notebook-csv/', {
             headers: {
               Authorization: userToken,
             },

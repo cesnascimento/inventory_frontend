@@ -12,7 +12,7 @@ import {
   openNotificationWithIcon,
 } from "../utils/functions";
 import { INVENTORY_DATACENTER_URL } from "../utils/myPaths";
-import InventoryFormExcel from "./components/InventoryFormExcel";
+import InventoryFormExcel from "./components/InventoryFormExcelDatacenter";
 
 const columns = [
   {
