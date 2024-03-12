@@ -92,7 +92,7 @@ export default function InventoryActivity() {
           local: `${item.local} ⇀ ${item.local_novo}`,
           colaborador: `${item.colaborador} ⇀ ${item.colaborador_novo}`,
           motivo_depreciado: item.motivo_depreciado,
-          createdOn: moment(item.created_at).format("DD-MM-YYYY"),
+          createdOn: moment(item.created_at).format("DD-MM-YYYY --- h:mm a"),
           /* createdOn: moment(item.created_at_formatted), */
         }))
       );
